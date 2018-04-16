@@ -25,6 +25,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private int layout;
     private List<HashMap<String, Object>> mapList;
 
+    public void setmFooterView(View mFooterView) {
+        this.mFooterView = mFooterView;
+    }
+
+    private View mFooterView;
+
     public RecyclerAdapter(Context context, List<HashMap<String, Object>> mapList, int layout) {
         this.context = context;
         this.mapList = mapList;
@@ -34,7 +40,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_list_item1, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         return new ViewHolder(view);
     }
 

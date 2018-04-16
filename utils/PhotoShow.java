@@ -23,12 +23,14 @@ import okhttp3.ResponseBody;
 
 public class PhotoShow {
     private static final String TAG = "Tag";
+    public static final String FRESH_SIGN = "20B140BADA51CE0DECE7ACFC56A672C0";
+    public static final String LOAD_SIGN = "2F0172811EC489C7C4ADE6645B202B69";
 
-    public static void showPhoto(final Context context, final BaseHandler handler, String url) {
+    public static void showPhoto(final Context context, final BaseHandler handler, String url, String sign) {
 //        Log.d(TAG, "showPhoto: ");
         OkHttpClient client = new OkHttpClient();
         Request request = BaseRequest.newRequest().url(url)
-                .addHeader("sign", "20B140BADA51CE0DECE7ACFC56A672C0").build();
+                .addHeader("sign", sign).build();
 /*                BaseRequest.builder.url("http://mmapi.yomei.tv/mm131/getHotPicList?lastIndex=-1")
                 .addHeader("sign", "20B140BADA51CE0DECE7ACFC56A672C0")
                 .build();*/
