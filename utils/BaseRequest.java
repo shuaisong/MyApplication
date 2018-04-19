@@ -16,8 +16,7 @@ public class BaseRequest {
                 .addHeader("client_version", "1.6.3")
                 .addHeader("refer", "http://mmapi.yomei.tv/")
                 .addHeader("did", "352284048697324,-1,f19245f48e2ffff6")
-                .addHeader("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE1NzM3MDQ5OTIxLCJyYW5kb20iOjE1MjM1MzMyMjI3MzQsImxvZ2luX3R5cGUiOjF9.IAQ3_DO1v8nchLbXFyXTQ5sHtZ99qNNLnsyU9L1JIXM");
-        ;
+                .addHeader("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjE1NzM3MDQ5OTIxLCJyYW5kb20iOjE1MjM1MzMyMjI3MzQsImxvZ2luX3R5cGUiOjF9.IAQ3_DO1v8nchLbXFyXTQ5sHtZ99qNNLnsyU9L1JIXM");;
         return builder;
     }
 

@@ -2,6 +2,7 @@ package com.example.lenovo.myapplication.fragment;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.lenovo.myapplication.Adapter.RecyclerAdapter;
@@ -36,6 +39,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.example.lenovo.myapplication.R.mipmap.icon_network_error;
+
 /**
  * Created by lenovo on 2018/4/12.
  */
@@ -55,6 +60,8 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
     private TabLayout tabLayout;
     static SwipeRefreshLayout new_swipe;
     static SwipeRefreshLayout hot_swipe;
+    private static ViewStub viewStub;
+    private static boolean isFresh = true;
 
     public int getCurrent_page() {
         return current_page;
@@ -99,6 +106,7 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
         hot_swipe = page2.findViewById(R.id.hot_swipe_refresh);
         list_new = page1.findViewById(R.id.list_new);
         list_hot = page2.findViewById(R.id.list_hot);
+        viewStub = page2.findViewById(R.id.pic_stub);
 
         List<View> list = new ArrayList<>();
         list.add(page1);
@@ -119,7 +127,6 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
         hot_swipe.setOnRefreshListener(this);
 
         //上拉加载
-        // TODO: 2018/4/16
         list_hot.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -131,11 +138,12 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 boolean isToFoot = recyclerView.canScrollVertically(1);
-                if (!isToFoot) {
+                Log.d(TAG, "onScrolled: " + isFresh);
+                if (!isToFoot && !isFresh) {
                     Toast.makeText(getActivity(), "上拉加载", Toast.LENGTH_SHORT).show();
-                    /*if (viewPager.getCurrentItem() == 0)
-                        showPhoto(new_lastIndex, PhotoShow.LOAD_SIGN);
-                    else showPhoto(hot_lastIndex, PhotoShow.LOAD_SIGN);*/
+                    if (viewPager.getCurrentItem() == 0)
+                        showPhoto(3853, PhotoShow.LOAD_SIGN_NEW);
+                    else showPhoto(170, PhotoShow.LOAD_SIGN);
                 }
             }
         });
@@ -176,6 +184,10 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
 
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
 
     @Override
     public void onRefresh() {
@@ -196,27 +208,27 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
     private static class PhotoShowHandler extends BaseHandler {
         private static final String TAG = "Tag";
         private final WeakReference<PhotoFG> weakReference;
+        List<HashMap<String, Object>> hashMaps = new ArrayList<>();
 
         private PhotoShowHandler(PhotoFG photoFG) {
             this.weakReference = new WeakReference<>(photoFG);
         }
 
         private RecyclerAdapter getAdapter(List<PicListBean> urlInfo) {
-            List<HashMap<String, Object>> hashMaps = new ArrayList<>();
             HashMap<String, Object> map;
             for (int j = 0; j < urlInfo.size(); j++) {
                 map = new HashMap<>();
                 map.put("title", urlInfo.get(j).getTitle());
                 map.put("pic_num", urlInfo.get(j).getPic_num());
-                Log.d(TAG, "handleMessage: " + urlInfo.get(j).getDetail1_url());
+                // Log.d(TAG, "handleMessage: " + urlInfo.get(j).getDetail1_url());
                 map.put("pic_url", "http://img10.mm798.net" + urlInfo.get(j).getDetail1_url());
                 hashMaps.add(map);
             }
             if (spanCount == 1) {
-                recyclerAdapter = new RecyclerAdapter(weakReference.get().getActivity(), hashMaps, R.layout.photo_list_item1);
+                recyclerAdapter = new RecyclerAdapter(hashMaps, R.layout.photo_list_item1);
             }
             if (spanCount == 2) {
-                recyclerAdapter = new RecyclerAdapter(weakReference.get().getActivity(), hashMaps, R.layout.photo_list_item);
+                recyclerAdapter = new RecyclerAdapter(hashMaps, R.layout.photo_list_item);
             }
             return recyclerAdapter;
         }
@@ -236,6 +248,7 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
                         hot_urlInfo = baseUrl.getDataObj().getHotPicList();
                         recyclerAdapter = getAdapter(hot_urlInfo);
                         list_hot.setAdapter(recyclerAdapter);
+                        isFresh = false;
                         hot_swipe.setRefreshing(false);
                         hot_lastIndex = baseUrl.getDataObj().getLastIndex();
                     } else {
@@ -244,10 +257,15 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
                         new_urlInfo = baseUrl.getDataObj().getNewPicList();
                         recyclerAdapter = getAdapter(new_urlInfo);
                         list_new.setAdapter(recyclerAdapter);
+                        isFresh = false;
                         new_swipe.setRefreshing(false);
                         new_lastIndex = baseUrl.getDataObj().getLastIndex();
                     }
                 }
+            } else {
+                View inflate = viewStub.inflate();
+                ImageView iv_pic = (ImageView) inflate.findViewById(R.id.iv_pic);
+                iv_pic.setImageResource(icon_network_error);
             }
         }
 

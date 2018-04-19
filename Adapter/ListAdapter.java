@@ -61,7 +61,7 @@ public class ListAdapter extends BaseAdapter {
         }
 //        viewHolder.imageView.setImageResource((Integer) mapList.get(position).get("pic_url"));
 //        Log.d(TAG, "getView: " + mapList.get(position).get("pic_url"));
-        Picasso.with(context).load((String) mapList.get(position).get("pic_url")).into(viewHolder.imageView);
+        Picasso.get().load((String) mapList.get(position).get("pic_url")).into(viewHolder.imageView);
         viewHolder.name.setText((String) mapList.get(position).get("title"));
         viewHolder.num.setText((String) mapList.get(position).get("pic_num"));
         return convertView;
