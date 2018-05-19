@@ -1,7 +1,6 @@
 package com.example.lenovo.myapplication.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lenovo on 2018/4/13.
@@ -50,7 +48,7 @@ public class ListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.photo_list_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.photo_list_item2, null);
             viewHolder = new ViewHolder();
             viewHolder.name = convertView.findViewById(R.id.photo_list_item_title);
             viewHolder.num = convertView.findViewById(R.id.photo_list_item_num);

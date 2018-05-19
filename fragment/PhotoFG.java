@@ -1,9 +1,7 @@
 package com.example.lenovo.myapplication.fragment;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -12,14 +10,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.lenovo.myapplication.Adapter.RecyclerAdapter;
 import com.example.lenovo.myapplication.Adapter.VPadapter;
@@ -27,41 +21,53 @@ import com.example.lenovo.myapplication.MainActivity;
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.base.BaseFragment;
 import com.example.lenovo.myapplication.base.BaseHandler;
+import com.example.lenovo.myapplication.bean.CustemChangeGridLayoutManagerSpance;
 import com.example.lenovo.myapplication.bean.HotPhoto;
 import com.example.lenovo.myapplication.bean.NewPhoto;
 import com.example.lenovo.myapplication.bean.PicListBean;
+import com.example.lenovo.myapplication.bean.RecyclerViewOnScrollListener;
 import com.example.lenovo.myapplication.bean.SpaceItemDecoration;
+import com.example.lenovo.myapplication.utils.CheckNet;
 import com.example.lenovo.myapplication.utils.PhotoShow;
+import com.example.lenovo.myapplication.utils.RecyclerViewUtil;
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.example.lenovo.myapplication.R.mipmap.icon_network_error;
-
 /**
- * Created by lenovo on 2018/4/12.
+ * auther:lenovo
+ * Date：2018/4/12
  */
 
 
 public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "Tag";
-    PhotoShowHandler handler = new PhotoShowHandler(this);
+    PhotoShowHandler handler;
     private boolean first = true;
     static List<PicListBean> hot_urlInfo;
     static List<PicListBean> new_urlInfo;
-    //static ListView list_hot;
-    @SuppressLint("StaticFieldLeak")
-    static RecyclerView list_hot;
-    @SuppressLint("StaticFieldLeak")
-    static RecyclerView list_new;
-    private TabLayout tabLayout;
-    static SwipeRefreshLayout new_swipe;
-    static SwipeRefreshLayout hot_swipe;
-    private static ViewStub viewStub;
-    private static boolean isFresh = true;
+    private RecyclerView list_hot;
+    private RecyclerView list_new;
+    private SwipeRefreshLayout new_swipe;
+    private SwipeRefreshLayout hot_swipe;
+    private static boolean firstFresh = true;
+    private static int isFresh = 0;
+    final static int FRESH_START = 1;
+    final static int FRESH_DIONG = 2;
+    final static int FRESH_DONE = 3;
+    private static int isLoad = 0;
+    final static int LOAD_DIONG = 1;
+    final static int LOAD_DONE = 2;
+    boolean ismLoad = false;
+    private View inflate;
+    private View inflate1;
+    private View loading;
+    private View error;
 
     public int getCurrent_page() {
         return current_page;
@@ -72,25 +78,42 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
     }
 
     private int current_page = 1;
-    static int new_lastIndex = -1;
-    static int hot_lastIndex = -1;
+    int new_lastIndex = -1;
+    int hot_lastIndex = -1;
 
-    private String hotPicList = "http://mmapi.yomei.tv/mm131/getHotPicList?lastIndex=";
-
-    private String newPicList = "http://mmapi.yomei.tv/mm131/getNewPicList?lastIndex=";
-
-    public static void setSpanCount(int spanCount) {
-        PhotoFG.spanCount = spanCount;
+    public void setSpanCount(int spanCount) {
+        this.spanCount = spanCount;
+        Log.d(TAG, "setSpanCount: " + list_hot.getAdapter() + "   " + spanCount);
     }
 
-    private static int spanCount = 2;
-    private static RecyclerAdapter recyclerAdapter;
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            onFragmentVisibleChange(true);
+            isFragmentVisible = true;
+            if (getCurrent_page() == 0) {
+                RecyclerViewUtil.get().setSpanCount(list_new, spanCount);
+            }
+            if (getCurrent_page() == 1) RecyclerViewUtil.get().setSpanCount(list_hot, spanCount);
+            return;
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    public int getSpanCount() {
+        return spanCount;
+    }
+
+    private int spanCount = 1;
+    private RecyclerAdapter recyclerAdapter_hot;
+    private RecyclerAdapter recyclerAdapter_new;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        rootView = inflater.inflate(R.layout.fg_photo, container, false);
         initView();
         return rootView;
     }
@@ -98,7 +121,7 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
     private void initView() {
         MainActivity activity = (MainActivity) getActivity();
         final ViewPager viewPager = rootView.findViewById(R.id.viewpager);
-        tabLayout = rootView.findViewById(R.id.tab);
+        TabLayout tabLayout = rootView.findViewById(R.id.tab);
         LayoutInflater layoutInflater = activity.getLayoutInflater();
         @SuppressLint("InflateParams") View page1 = layoutInflater.inflate(R.layout.page1, null);
         @SuppressLint("InflateParams") View page2 = layoutInflater.inflate(R.layout.page2, null);
@@ -106,7 +129,7 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
         hot_swipe = page2.findViewById(R.id.hot_swipe_refresh);
         list_new = page1.findViewById(R.id.list_new);
         list_hot = page2.findViewById(R.id.list_hot);
-        viewStub = page2.findViewById(R.id.pic_stub);
+        handler = new PhotoShowHandler(this);
 
         List<View> list = new ArrayList<>();
         list.add(page1);
@@ -117,52 +140,87 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
         viewPager.addOnPageChangeListener(this);
 
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setText(R.string.photo_new);
-        tabLayout.getTabAt(1).setText(R.string.hot);
-        //下拉加载
+
+        TabLayout.Tab tabAt0 = tabLayout.getTabAt(0);
+        assert tabAt0 != null;
+        TabLayout.Tab tabAt1 = tabLayout.getTabAt(1);
+        assert tabAt1 != null;
+        tabAt0.setText(R.string.photo_new);
+        tabAt1.setText(R.string.hot);
+//        list_hot.setHasFixedSize(true);
+        RecyclerViewUtil.setLayoutManger(list_hot, spanCount);
+        RecyclerViewUtil.setLayoutManger(list_new, spanCount);
+        getAdapter();
+        inflate = getLayoutInflater().inflate(R.layout.footer_holder, null);
+        inflate1 = getLayoutInflater().inflate(R.layout.footer_holder, null);
+
+        recyclerAdapter_hot.addFoot(inflate);
+        recyclerAdapter_new.addFoot(inflate1);
+
+        list_hot.setAdapter(recyclerAdapter_hot);
+        list_new.setAdapter(recyclerAdapter_new);
+
+        loading = inflate.findViewById(R.id.loading_viewStub);
+        error = inflate.findViewById(R.id.network_error_viewStub);
+        setVisible(null);
+        //下拉刷新
         int color = getResources().getColor(R.color.colorAccent);
         new_swipe.setColorSchemeColors(color);
         hot_swipe.setColorSchemeColors(color);
         new_swipe.setOnRefreshListener(this);
         hot_swipe.setOnRefreshListener(this);
-
-        //上拉加载
-        list_hot.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-//                Log.d(TAG, "onScrollStateChanged: " + newState);
-            }
-
+        list_new.addOnScrollListener(new RecyclerViewOnScrollListener(getActivity()) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
                 boolean isToFoot = recyclerView.canScrollVertically(1);
-                Log.d(TAG, "onScrolled: " + isFresh);
-                if (!isToFoot && !isFresh) {
-                    Toast.makeText(getActivity(), "上拉加载", Toast.LENGTH_SHORT).show();
-                    if (viewPager.getCurrentItem() == 0)
-                        showPhoto(3853, PhotoShow.LOAD_SIGN_NEW);
-                    else showPhoto(170, PhotoShow.LOAD_SIGN);
-                }
+                // TODO: 2018/5/7
             }
         });
-//        list_hot = page2.findViewById(R.id.list_hot);
+        recyclerAdapter_new.setChangeGridLayoutManager(new CustemChangeGridLayoutManagerSpance(list_new));
+        recyclerAdapter_hot.setChangeGridLayoutManager(new CustemChangeGridLayoutManagerSpance(list_hot));
 
-        setRecyclerInfo(spanCount);
+        list_hot.addOnScrollListener(new RecyclerViewOnScrollListener(getActivity()) {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (isFresh == FRESH_START) {
+                    isFresh = FRESH_DIONG;
+                }
+                if (isLoad == 0 && RecyclerViewUtil.isBottom(recyclerView) && !firstFresh) {
+                    setVisible(loading);
+                    isLoad = LOAD_DIONG;
+//                    Log.d(TAG, "onScrolled:  ");
+                    if (CheckNet.isNetworkConnected(getActivity())) {
+//                        showPhoto(170, PhotoShow.LOAD_SIGN);
+                        setVisible(null);
+                    } /*else {
+                        setVisible(error);
+                        TextView netError = error.findViewById(R.id.net_error);
+                        netError.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                    }*/
+                }
+            }
+
+        });
+        hot_swipe.measure(0, 0);
+        hot_swipe.setRefreshing(true);
 
         showPhoto(-1, PhotoShow.FRESH_SIGN);
+
+        isFresh = FRESH_START;
+
     }
 
-    private void setRecyclerInfo(int spnCount) {
-        GridLayoutManager layoutManager1 = new GridLayoutManager(getActivity(), spnCount);
-        GridLayoutManager layoutManager2 = new GridLayoutManager(getActivity(), spnCount);
-        int dimension = getResources().getDimensionPixelSize(R.dimen.photo_list_divider_height);
-        SpaceItemDecoration itemDecoration = new SpaceItemDecoration(dimension);
-        list_hot.addItemDecoration(itemDecoration);
-        list_hot.setLayoutManager(layoutManager1);
-        list_new.addItemDecoration(itemDecoration);
-        list_new.setLayoutManager(layoutManager2);
+
+    private void setVisible(@Nullable View view) {
+        loading.setVisibility(View.GONE);
+        error.setVisibility(View.GONE);
+        if (null != view)
+            view.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -172,11 +230,17 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
 
     @Override
     public void onPageSelected(int position) {
+        setCurrent_page(position);
         if (first && position == 0) {
-            setCurrent_page(position);
+            new_swipe.measure(0, 0);
+            new_swipe.setRefreshing(true);
             showPhoto(-1, PhotoShow.FRESH_SIGN);
             first = false;
         }
+        if (position == 0)
+            RecyclerViewUtil.get().setSpanCount(list_new, spanCount);
+        if (position == 1)
+            RecyclerViewUtil.get().setSpanCount(list_hot, spanCount);
     }
 
     @Override
@@ -197,75 +261,68 @@ public class PhotoFG extends BaseFragment implements ViewPager.OnPageChangeListe
     private void showPhoto(int index, String sign) {
 //        Log.d(TAG, "showPhoto: "+getCurrent_page());
         if (getCurrent_page() == 1) {
-            PhotoShow.showPhoto(getActivity(), handler, hotPicList + index, sign);
+            String hotPicList = "http://mmapi.yomei.tv/mm131/getHotPicList?lastIndex=";
+            PhotoShow.showPhoto(getActivity(), handler, hotPicList, index, sign);
         }
         if (getCurrent_page() == 0) {
-            PhotoShow.showPhoto(getActivity(), handler, newPicList + index, sign);
+            String newPicList = "http://mmapi.yomei.tv/mm131/getNewPicList?lastIndex=";
+            PhotoShow.showPhoto(getActivity(), handler, newPicList, index, sign);
         }
     }
 
 
+    private void getAdapter() {
+        if (getSpanCount() == 1) {
+            recyclerAdapter_hot = new RecyclerAdapter(hashMaps_hot, R.layout.photo_list_item1);
+            recyclerAdapter_new = new RecyclerAdapter(hashMaps_new, R.layout.photo_list_item1);
+        }
+        if (getSpanCount() == 2) {
+            recyclerAdapter_hot = new RecyclerAdapter(hashMaps_hot, R.layout.photo_list_item2);
+            recyclerAdapter_new = new RecyclerAdapter(hashMaps_new, R.layout.photo_list_item1);
+        }
+    }
+
+    List<HashMap<String, Object>> hashMaps_hot = new ArrayList<>();
+    List<HashMap<String, Object>> hashMaps_new = new ArrayList<>();
+
     private static class PhotoShowHandler extends BaseHandler {
-        private static final String TAG = "Tag";
         private final WeakReference<PhotoFG> weakReference;
-        List<HashMap<String, Object>> hashMaps = new ArrayList<>();
 
         private PhotoShowHandler(PhotoFG photoFG) {
             this.weakReference = new WeakReference<>(photoFG);
         }
 
-        private RecyclerAdapter getAdapter(List<PicListBean> urlInfo) {
-            HashMap<String, Object> map;
-            for (int j = 0; j < urlInfo.size(); j++) {
-                map = new HashMap<>();
-                map.put("title", urlInfo.get(j).getTitle());
-                map.put("pic_num", urlInfo.get(j).getPic_num());
-                // Log.d(TAG, "handleMessage: " + urlInfo.get(j).getDetail1_url());
-                map.put("pic_url", "http://img10.mm798.net" + urlInfo.get(j).getDetail1_url());
-                hashMaps.add(map);
-            }
-            if (spanCount == 1) {
-                recyclerAdapter = new RecyclerAdapter(hashMaps, R.layout.photo_list_item1);
-            }
-            if (spanCount == 2) {
-                recyclerAdapter = new RecyclerAdapter(hashMaps, R.layout.photo_list_item);
-            }
-            return recyclerAdapter;
-        }
-
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            PhotoFG mPhotoFG = weakReference.get();
             if (weakReference.get() == null) {
                 return;
             }
             if (msg.what == 200) {
                 String showPhoto = msg.getData().getString("showPhoto", "");
                 if (showPhoto != null) {
+                    Gson gson = new Gson();
                     if (showPhoto.contains("hotPicList")) {
-                        Gson gson = new Gson();
                         HotPhoto baseUrl = gson.fromJson(showPhoto, HotPhoto.class);
                         hot_urlInfo = baseUrl.getDataObj().getHotPicList();
-                        recyclerAdapter = getAdapter(hot_urlInfo);
-                        list_hot.setAdapter(recyclerAdapter);
-                        isFresh = false;
-                        hot_swipe.setRefreshing(false);
-                        hot_lastIndex = baseUrl.getDataObj().getLastIndex();
+                        if (mPhotoFG.new_lastIndex != baseUrl.getDataObj().getLastIndex()) {
+                            mPhotoFG.new_lastIndex = baseUrl.getDataObj().getLastIndex();
+                            RecyclerViewUtil.get().updateList(mPhotoFG.recyclerAdapter_hot, mPhotoFG.hashMaps_hot, hot_urlInfo, msg.arg1 == -1 ? 1 : 2);
+                        }
+                        mPhotoFG.hot_swipe.setRefreshing(false);
                     } else {
-                        Gson gson = new Gson();
                         NewPhoto baseUrl = gson.fromJson(showPhoto, NewPhoto.class);
                         new_urlInfo = baseUrl.getDataObj().getNewPicList();
-                        recyclerAdapter = getAdapter(new_urlInfo);
-                        list_new.setAdapter(recyclerAdapter);
-                        isFresh = false;
-                        new_swipe.setRefreshing(false);
-                        new_lastIndex = baseUrl.getDataObj().getLastIndex();
+                        if (mPhotoFG.hot_lastIndex != baseUrl.getDataObj().getLastIndex()) {
+                            mPhotoFG.new_lastIndex = baseUrl.getDataObj().getLastIndex();
+                            RecyclerViewUtil.get().updateList(mPhotoFG.recyclerAdapter_new, mPhotoFG.hashMaps_new, new_urlInfo, msg.arg1 == -1 ? 1 : 2);
+                        }
+                        mPhotoFG.new_swipe.setRefreshing(false);
                     }
+                    isFresh = FRESH_DONE;
+                    firstFresh = false;
                 }
-            } else {
-                View inflate = viewStub.inflate();
-                ImageView iv_pic = (ImageView) inflate.findViewById(R.id.iv_pic);
-                iv_pic.setImageResource(icon_network_error);
             }
         }
 

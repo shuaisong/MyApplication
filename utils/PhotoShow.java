@@ -29,12 +29,20 @@ public class PhotoShow {
     public static final String LOAD_SIGN = "900351F69CE748843CFC46C8702BB0BB";
     public static final String LOAD_SIGN_NEW = "11DE3F7E603E8743D6AD368C28AD4348";
 
-    public static void showPhoto(final Context context, final BaseHandler handler, String url, String sign) {
+    /*
+    * -1  20B140BADA51CE0DECE7ACFC56A672C0
+    * */
+    private String getSign(String type, int index) {
+
+        return "";
+    }
+
+    public static void showPhoto(final Context context, final BaseHandler handler, String url, final int index, String sign) {
         OkHttpClient client = new OkHttpClient.Builder().
                 connectTimeout(10, TimeUnit.SECONDS).
                 readTimeout(20, TimeUnit.SECONDS).
                 build();
-        final Request request = BaseRequest.newRequest().url(url)
+        final Request request = BaseRequest.newRequest().url(url + index)
                 .addHeader("sign", sign).build();
         final Call call = client.newCall(request);
         call.enqueue(new Callback() {
@@ -52,6 +60,7 @@ public class PhotoShow {
                 SaveFile.saveFile(context, "showPhoto", "showPhoto", string);
                 Message message = handler.obtainMessage();
                 message.what = response.code();
+                message.arg1 = index;
                 Bundle bundle = new Bundle();
                 bundle.putString("showPhoto", string);
                 message.setData(bundle);

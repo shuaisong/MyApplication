@@ -2,21 +2,25 @@ package com.example.lenovo.myapplication;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
+import com.example.lenovo.myapplication.base.BaseActivity;
 import com.example.lenovo.myapplication.base.BaseFragment;
 import com.example.lenovo.myapplication.base.BaseHandler;
-import com.example.lenovo.myapplication.bean.BaseUrl;
+import com.example.lenovo.myapplication.fragment.CollectFG;
+import com.example.lenovo.myapplication.fragment.MineFG;
 import com.example.lenovo.myapplication.fragment.PhotoFG;
-import com.example.lenovo.myapplication.utils.Initdata;
-import com.google.gson.Gson;
+import com.example.lenovo.myapplication.fragment.VideoFG;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.BlockingQueue;
@@ -28,28 +32,24 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "Tag";
-    private RadioButton photo;
-    private RadioButton video;
-    private RadioButton collect;
-    private RadioButton mine;
     private BaseFragment currentFG;
-    private BaseFragment baseFragment;
-    private FragmentManager manager;
-    private static int CPU_COUNT;
     public static Executor THREAD_POOL_EXECUTOR;
     private static final BlockingQueue<Runnable> sPoolWorkQueue =
-            new LinkedBlockingQueue<Runnable>(128);
+            new LinkedBlockingQueue<>(128);
     private static final ThreadFactory sThreadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
-        public Thread newThread(Runnable r) {
+        public Thread newThread(@NonNull Runnable r) {
             return new Thread(r, "AsyncTask #" + mCount.getAndIncrement());
         }
     };
-    BaseHandler inithandler = new InitDataHandler(this);
+    private PhotoFG photoFG;
+    private VideoFG videoFG;
+    private CollectFG collectFG;
+    private MineFG mineFG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,35 +60,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //透明导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         // StatusBar.statusBarTintColor(this, R.color.colorAccent);
-        getSupportActionBar().hide();
+        ActionBar bar = getSupportActionBar();
+        assert bar != null;
+        bar.hide();
         initView();
-        photo.setChecked(true);
-        baseFragment = new PhotoFG();
-        manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.frame_root_fragment, baseFragment, "photo").commit();
-        currentFG = baseFragment;
-        CPU_COUNT = Runtime.getRuntime().availableProcessors();
-        THREAD_POOL_EXECUTOR
-                = new ThreadPoolExecutor(CPU_COUNT + 1, CPU_COUNT * 2 + 1, 2,
-                TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);
-        Initdata.init(this, inithandler);
     }
 
     private void initView() {
-        photo = (RadioButton) findViewById(R.id.photo);
-        video = (RadioButton) findViewById(R.id.video);
-        collect = (RadioButton) findViewById(R.id.collect);
-        mine = (RadioButton) findViewById(R.id.mine);
+        RadioButton photo = findViewById(R.id.photo);
+        RadioButton mVideo = findViewById(R.id.video);
+        RadioButton mCollect = findViewById(R.id.collect);
+        RadioButton mMine = findViewById(R.id.mine);
         photo.setOnClickListener(this);
-        video.setOnClickListener(this);
-        collect.setOnClickListener(this);
-        mine.setOnClickListener(this);
+        mVideo.setOnClickListener(this);
+        mCollect.setOnClickListener(this);
+        mMine.setOnClickListener(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        selectFG(R.id.photo, R.id.frame_root_fragment);
+        int mCPU_COUNT = Runtime.getRuntime().availableProcessors();
+        THREAD_POOL_EXECUTOR
+                = new ThreadPoolExecutor(mCPU_COUNT + 1, mCPU_COUNT * 2 + 1, 2,
+                TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);
 
     }
 
@@ -98,37 +94,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void selectFG(int vId, int id) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("FGID", vId);
-        baseFragment = new BaseFragment();
-        baseFragment.setArguments(bundle);
         switch (vId) {
             case R.id.photo:
-                add(id, baseFragment, "photo");
+                if (photoFG == null)
+                    photoFG = new PhotoFG();
+                add(id, photoFG, "photo");
                 break;
             case R.id.video:
-                add(id, baseFragment, "video");
+                if (videoFG == null)
+                    videoFG = new VideoFG();
+                add(id, videoFG, "video");
                 break;
             case R.id.collect:
-                add(id, baseFragment, "collect");
+                if (collectFG == null)
+                    collectFG = new CollectFG();
+                add(id, collectFG, "collect");
                 break;
             case R.id.mine:
-                add(id, baseFragment, "mine");
+                if (mineFG == null)
+                    mineFG = new MineFG();
+                add(id, mineFG, "mine");
                 break;
             default:
-                add(id, baseFragment, "photo");
+                if (photoFG == null)
+                    photoFG = new PhotoFG();
+                add(id, photoFG, "photo");
+                break;
         }
     }
 
     private void add(int id, BaseFragment baseFragment, String tag) {
         Log.d(TAG, "add: " + tag);
-        Fragment fragmentByTag = manager.findFragmentByTag(tag);
-        FragmentTransaction transaction = manager.beginTransaction();
+        FragmentManager mManager = getSupportFragmentManager();
+        Fragment fragmentByTag = mManager.findFragmentByTag(tag);
+        FragmentTransaction transaction = mManager.beginTransaction();
         if (fragmentByTag != null) baseFragment = (BaseFragment) fragmentByTag;
         if (baseFragment.isAdded()) {
             addOrShowFragment(transaction, id, baseFragment, tag);
         } else {
-            Log.d(TAG, "add: " + currentFG + "  " + currentFG.isAdded() + "  " + tag);
+            Log.d(TAG, "add: " + currentFG + "  " + tag);
             if (currentFG != null && currentFG.isAdded()) {
                 transaction.hide(currentFG).add(id, baseFragment, tag).show(baseFragment).commit();
             } else {
@@ -152,30 +156,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         currentFG.setUserVisibleHint(true);
     }
 
-    private static class InitDataHandler extends BaseHandler {
-        private final WeakReference<MainActivity> mainActivityWeakReference;
 
-        private InitDataHandler(MainActivity activity) {
-            this.mainActivityWeakReference = new WeakReference<MainActivity>(activity);
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    boolean isExit;
+
+    private void exit() {
+        if (!isExit) {
+            isExit = true;
+            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                    Toast.LENGTH_SHORT).show();
+            // 利用handler延迟发送更改状态信息
+            handler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
+
+    MainHandler handler = new MainHandler(this);
+
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
+    private static class MainHandler extends BaseHandler {
+        WeakReference<MainActivity> weakReference;
+
+        MainHandler(MainActivity activity) {
+            this.weakReference = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (mainActivityWeakReference.get() == null) {
-                return;
-            }
-            if (msg.what == 200) {
-                String initData = msg.getData().getString("initData", "");
-                if (initData != null) {
-                    Gson gson = new Gson();
-                    BaseUrl baseUrl = gson.fromJson(initData, BaseUrl.class);
-                    BaseUrl.DataObjBean.UrlInfoBean urlInfo = baseUrl.getDataObj().getUrlInfo();
-                    String picUrlPrefix = urlInfo.getPicUrlPrefix();
-                    Log.d(TAG, "handleMessage: " + picUrlPrefix);
-                }
-            }
+            weakReference.get().isExit = false;
         }
-
     }
+
 }

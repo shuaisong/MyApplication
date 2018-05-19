@@ -10,6 +10,8 @@ import android.view.WindowManager;
 
 /**
  * Created by lenovo on 2018/4/12.
+ * auther:lenovo
+ * Date：2018/4/12
  */
 
 public class StatusBar {
