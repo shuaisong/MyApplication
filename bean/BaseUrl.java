@@ -1,17 +1,19 @@
 package com.example.lenovo.myapplication.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lenovo on 2018/4/11.
  */
 
-public class BaseUrl {
+public class BaseUrl implements Serializable{
+
 
     /**
      * msg : 成功
      * code : 200
-     * dataObj : {"otherInfo":{"iosCommentGuidFreqType":1,"iosCommentGuidFreq":7},"noticeInfo":{"noticeList":[]},"browseInfo":{"maxVideoId":3642,"maxArticleId":3876},"urlInfo":{"netCheckUrl":"http://only-380473-112-17-238-21.nstool.netease.com/","picUrlPrefix":"http://img10.mm798.net","videoSearchUrlprefix":"http://prt.mm798.net/search/video/","picThumbUrlprefix":"http://prt.mm798.net:8080/collection","picSearchUrlprefix":"http://prt.mm798.net:8080/search","picSmallUrlprefix":"http://prt.mm798.net:8080/cover","videoThumbUrlprefix":"http://prt.mm798.net/collection/video/","backUrlprefix":"http://pr.mm798.net/back","videoUrlPrefix":"http://prt.mm798.net/videocover","labelUrlprefix":"http://pr.mm798.net/back"},"advertisementInfo":{"picSwitchAdFreq":10,"advertisementList":[],"advertisementPropList":[{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":1},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":2},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":3},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":4},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":5},{"sg_prop":5000,"self_prop":0,"tx_prop":5000,"id":6},{"sg_prop":2000,"self_prop":0,"tx_prop":8000,"id":7},{"sg_prop":2000,"self_prop":0,"tx_prop":8000,"id":8},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":9},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":10},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":11},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":12},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":13},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":14},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":15},{"sg_prop":0,"self_prop":10000,"tx_prop":0,"id":16},{"sg_prop":0,"self_prop":10000,"tx_prop":0,"id":17}]}}
+     * dataObj : {"otherInfo":{"iosCommentGuidFreqType":1,"recommandStartup":2,"iosCommentGuidFreq":7},"noticeInfo":{"noticeList":[]},"browseInfo":{"maxVideoId":4864,"maxArticleId":4244},"urlInfo":{"netCheckUrl":"http://only-380473-112-17-238-21.nstool.netease.com/","picUrlPrefix":"http://img1.mm115.net","videoSearchUrlprefix":"http://prt.mm798.net/search/video/","picThumbUrlprefix":"http://prt.mm798.net:8080/collection","picSearchUrlprefix":"http://prt.mm798.net:8080/search","picSmallUrlprefix":"http://prt.mm798.net:8080/cover","videoThumbUrlprefix":"http://prt.mm798.net/collection/video/","backUrlprefix":"http://pr.mm798.net/back","videoUrlPrefix":"http://prt.mm798.net/videocover","labelUrlprefix":"http://pr.mm798.net/back"},"advertisementInfo":{"picSwitchAdFreq":10,"advertisementList":[],"advertisementPropList":[{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":1},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":2},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":3},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":4},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":5},{"sg_prop":5000,"self_prop":0,"tx_prop":5000,"id":6},{"sg_prop":2000,"self_prop":0,"tx_prop":8000,"id":7},{"sg_prop":2000,"self_prop":0,"tx_prop":8000,"id":8},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":9},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":10},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":11},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":12},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":13},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":14},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":15},{"sg_prop":0,"self_prop":10000,"tx_prop":0,"id":16},{"sg_prop":0,"self_prop":10000,"tx_prop":0,"id":17}]}}
      */
 
     private String msg;
@@ -44,10 +46,10 @@ public class BaseUrl {
 
     public static class DataObjBean {
         /**
-         * otherInfo : {"iosCommentGuidFreqType":1,"iosCommentGuidFreq":7}
+         * otherInfo : {"iosCommentGuidFreqType":1,"recommandStartup":2,"iosCommentGuidFreq":7}
          * noticeInfo : {"noticeList":[]}
-         * browseInfo : {"maxVideoId":3642,"maxArticleId":3876}
-         * urlInfo : {"netCheckUrl":"http://only-380473-112-17-238-21.nstool.netease.com/","picUrlPrefix":"http://img10.mm798.net","videoSearchUrlprefix":"http://prt.mm798.net/search/video/","picThumbUrlprefix":"http://prt.mm798.net:8080/collection","picSearchUrlprefix":"http://prt.mm798.net:8080/search","picSmallUrlprefix":"http://prt.mm798.net:8080/cover","videoThumbUrlprefix":"http://prt.mm798.net/collection/video/","backUrlprefix":"http://pr.mm798.net/back","videoUrlPrefix":"http://prt.mm798.net/videocover","labelUrlprefix":"http://pr.mm798.net/back"}
+         * browseInfo : {"maxVideoId":4864,"maxArticleId":4244}
+         * urlInfo : {"netCheckUrl":"http://only-380473-112-17-238-21.nstool.netease.com/","picUrlPrefix":"http://img1.mm115.net","videoSearchUrlprefix":"http://prt.mm798.net/search/video/","picThumbUrlprefix":"http://prt.mm798.net:8080/collection","picSearchUrlprefix":"http://prt.mm798.net:8080/search","picSmallUrlprefix":"http://prt.mm798.net:8080/cover","videoThumbUrlprefix":"http://prt.mm798.net/collection/video/","backUrlprefix":"http://pr.mm798.net/back","videoUrlPrefix":"http://prt.mm798.net/videocover","labelUrlprefix":"http://pr.mm798.net/back"}
          * advertisementInfo : {"picSwitchAdFreq":10,"advertisementList":[],"advertisementPropList":[{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":1},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":2},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":3},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":4},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":5},{"sg_prop":5000,"self_prop":0,"tx_prop":5000,"id":6},{"sg_prop":2000,"self_prop":0,"tx_prop":8000,"id":7},{"sg_prop":2000,"self_prop":0,"tx_prop":8000,"id":8},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":9},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":10},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":11},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":12},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":13},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":14},{"sg_prop":0,"self_prop":0,"tx_prop":10000,"id":15},{"sg_prop":0,"self_prop":10000,"tx_prop":0,"id":16},{"sg_prop":0,"self_prop":10000,"tx_prop":0,"id":17}]}
          */
 
@@ -100,10 +102,12 @@ public class BaseUrl {
         public static class OtherInfoBean {
             /**
              * iosCommentGuidFreqType : 1
+             * recommandStartup : 2
              * iosCommentGuidFreq : 7
              */
 
             private int iosCommentGuidFreqType;
+            private int recommandStartup;
             private int iosCommentGuidFreq;
 
             public int getIosCommentGuidFreqType() {
@@ -112,6 +116,14 @@ public class BaseUrl {
 
             public void setIosCommentGuidFreqType(int iosCommentGuidFreqType) {
                 this.iosCommentGuidFreqType = iosCommentGuidFreqType;
+            }
+
+            public int getRecommandStartup() {
+                return recommandStartup;
+            }
+
+            public void setRecommandStartup(int recommandStartup) {
+                this.recommandStartup = recommandStartup;
             }
 
             public int getIosCommentGuidFreq() {
@@ -137,8 +149,8 @@ public class BaseUrl {
 
         public static class BrowseInfoBean {
             /**
-             * maxVideoId : 3642
-             * maxArticleId : 3876
+             * maxVideoId : 4864
+             * maxArticleId : 4244
              */
 
             private int maxVideoId;
@@ -164,7 +176,7 @@ public class BaseUrl {
         public static class UrlInfoBean {
             /**
              * netCheckUrl : http://only-380473-112-17-238-21.nstool.netease.com/
-             * picUrlPrefix : http://img10.mm798.net
+             * picUrlPrefix : http://img1.mm115.net
              * videoSearchUrlprefix : http://prt.mm798.net/search/video/
              * picThumbUrlprefix : http://prt.mm798.net:8080/collection
              * picSearchUrlprefix : http://prt.mm798.net:8080/search

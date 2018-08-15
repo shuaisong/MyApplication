@@ -2,9 +2,14 @@ package com.example.lenovo.myapplication.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
-import android.net.NetworkRequest;
+import android.os.Build;
+import android.text.TextUtils;
+import android.util.Log;
+
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.Enumeration;
 
 /**
  * Created by lenovo on 2018/4/26.
@@ -13,17 +18,27 @@ import android.net.NetworkRequest;
  */
 
 public class CheckNet {
+    private static CheckNet checkNet;
 
+    private CheckNet() {
+    }
+
+    public static CheckNet getIntance() {
+        if (checkNet == null) {
+            checkNet = new CheckNet();
+        }
+        return checkNet;
+    }
     /**
      * @param context 上下文
      * @return 是否有网络连接
      */
-    public static boolean isNetworkConnected(Context context) {
+    public boolean isNetworkConnected(Context context) {
         if (context != null) {
             ConnectivityManager mSystemService = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             assert mSystemService != null;
             NetworkInfo mNetworkInfo = mSystemService.getActiveNetworkInfo();
-            if (mNetworkInfo != null) return mNetworkInfo.isAvailable();
+            return mNetworkInfo != null && mNetworkInfo.isAvailable();
         }
         return false;
     }
@@ -32,7 +47,7 @@ public class CheckNet {
      * @param context context
      * @return wifi 是否可用
      */
-    public static boolean isWifiConnected(Context context) {
+    public boolean isWifiConnected(Context context) {
         if (context != null) {
             ConnectivityManager mSystemService = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             assert mSystemService != null;
@@ -52,6 +67,51 @@ public class CheckNet {
             assert mSystemService != null;
             NetworkInfo mNetworkInfo = mSystemService.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
             return mNetworkInfo != null && mNetworkInfo.isAvailable();
+        }
+        return false;
+    }
+
+    /**
+     * 是否使用代理(WiFi状态下的,避免被抓包)
+     */
+    public static boolean isWifiProxy(Context context) {
+        final boolean is_ics_or_later = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+        String proxyAddress;
+        int proxyPort;
+        if (is_ics_or_later) {
+            proxyAddress = System.getProperty("http.proxyHost");
+            String portstr = System.getProperty("http.proxyPort");
+            proxyPort = Integer.parseInt((portstr != null ? portstr : "-1"));
+            System.out.println(proxyAddress + "~");
+            System.out.println("port = " + proxyPort);
+        } else {
+            proxyAddress = android.net.Proxy.getHost(context);
+            proxyPort = android.net.Proxy.getPort(context);
+            Log.e("address = ", proxyAddress + "~");
+            Log.e("port = ", proxyPort + "~");
+        }
+        return (!TextUtils.isEmpty(proxyAddress)) && (proxyPort != -1);
+    }
+
+    /**
+     * 是否正在使用VPN
+     */
+    public static boolean isVpnUsed() {
+        try {
+            Enumeration<NetworkInterface> niList = NetworkInterface.getNetworkInterfaces();
+            if (niList != null) {
+                for (NetworkInterface intf : Collections.list(niList)) {
+                    if (!intf.isUp() || intf.getInterfaceAddresses().size() == 0) {
+                        continue;
+                    }
+                    Log.d("-----", "isVpnUsed() NetworkInterface Name: " + intf.getName());
+                    if ("tun0".equals(intf.getName()) || "ppp0".equals(intf.getName())) {
+                        return true; // The VPN is up
+                    }
+                }
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
         return false;
     }

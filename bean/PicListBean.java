@@ -63,7 +63,7 @@ public class PicListBean {
     private String keyword;
     private String cover_url;
     private String tag_name;
-    private String apid;
+    private int apid;
     private String detail3_url;
     private int click_num;
     private String sort;
@@ -236,11 +236,11 @@ public class PicListBean {
         this.tag_name = tag_name;
     }
 
-    public String getApid() {
+    public int getApid() {
         return apid;
     }
 
-    public void setApid(String apid) {
+    public void setApid(int apid) {
         this.apid = apid;
     }
 

@@ -1,12 +1,13 @@
 package com.example.lenovo.myapplication.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lenovo on 2018/4/14.
  */
 
-public class HotPhoto {
+public class HotPhoto implements Serializable {
 
     /**
      * msg : 成功

@@ -1,43 +1,32 @@
 package com.example.lenovo.myapplication.Adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.util.SparseArrayCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lenovo.myapplication.R;
-import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.jetbrains.annotations.Contract;
-
 import java.util.HashMap;
 import java.util.List;
-
-import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 /**
  * Created by lenovo on 2018/4/15.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    private static final String TAG = "Tag";
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements View.OnClickListener {
     private static final int TYPE_ITEM = 1, TYPE_FOOT = 2;
     private int layout;
-
     private List<HashMap<String, Object>> mapList;
     private View footView;
     private int footViewSize = 0;
     private boolean isAddFoot = false;
+
+    private OnItemClickListener onItemClickListener;
 
     public void setLayout(int layout) {
         this.layout = layout;
@@ -46,6 +35,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public RecyclerAdapter(List<HashMap<String, Object>> mapList, int layout) {
         this.mapList = mapList;
         this.layout = layout;
+    }
+
+    public View getFoot() {
+        return footView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClick(mapList, (Integer) v.getTag());
+        }
+    }
+
+    public void setItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     public interface ChangeGridLayoutManagerSpance {
@@ -90,6 +94,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 view = View.inflate(parent.getContext(), layout, null);
                 break;
         }
+        view.setOnClickListener(this);
         return new ViewHolder(view);
     }
 
@@ -111,6 +116,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 public void onError(Exception e) {
                 }
             });
+            holder.itemView.setTag(position);
         }
     }
 
@@ -136,5 +142,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             num = itemView.findViewById(R.id.photo_list_item_num);
             title = itemView.findViewById(R.id.photo_list_item_title);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(List<HashMap<String, Object>> mapList, int position);
     }
 }

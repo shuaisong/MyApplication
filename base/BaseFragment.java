@@ -1,18 +1,14 @@
 package com.example.lenovo.myapplication.base;
 
 import android.os.Bundle;
-import android.os.Trace;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.lenovo.myapplication.R;
 
 /**
  * Created by lenovo on 2018/4/12.
+ *auther:lenovo
+ *Date：2018/4/12
  */
 
 public class BaseFragment extends Fragment {
@@ -35,6 +31,7 @@ public class BaseFragment extends Fragment {
             return;
         }
         if (isFirstVisible && isVisibleToUser) {
+
             onFragmentFirstVisible();
             isFirstVisible = false;
             return;
@@ -47,8 +44,13 @@ public class BaseFragment extends Fragment {
         if (isFragmentVisible) {
             isFragmentVisible = false;
             onFragmentVisibleChange(false);
-            return;
         }
+    }
+
+    protected void initView() {
+    }
+
+    protected void initData() {
     }
 
     /**
@@ -84,9 +86,13 @@ public class BaseFragment extends Fragment {
      * 最后在 onFragmentVisibleChange() 里根据数据下载状态来控制下载进度ui控件的显示与隐藏
      */
     private void onFragmentFirstVisible() {
-
+        initView();
+        initData();
     }
 
+    public void justShowUI() {
+
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
