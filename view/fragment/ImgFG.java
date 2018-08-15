@@ -23,6 +23,7 @@ import com.example.lenovo.myapplication.bean.Constants;
 import com.example.lenovo.myapplication.bean.HotPhoto;
 import com.example.lenovo.myapplication.bean.NewPhoto;
 import com.example.lenovo.myapplication.bean.PicListBean;
+import com.example.lenovo.myapplication.interfaces.RecyclerViewOnScrollListener;
 import com.example.lenovo.myapplication.bean.SpaceItemDecoration;
 import com.example.lenovo.myapplication.bean.msg.ChangeRow;
 import com.example.lenovo.myapplication.component.AppComponent;
@@ -121,6 +122,7 @@ public class ImgFG extends BaseFragment implements ImgFGContact.View, OnItemChil
         imgAdapter.setEmptyView(emptyView);
         float mDp2px = ConvertUtil.dp2px(getActivity(), getActivity().getResources().getDimension(R.dimen.dp_2));
         list.addItemDecoration(new SpaceItemDecoration((int) mDp2px));
+        list.addOnScrollListener(new RecyclerViewOnScrollListener(getContext()));
         list.setAdapter(imgAdapter);
     }
 
