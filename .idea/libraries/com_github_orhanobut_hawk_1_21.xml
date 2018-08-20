@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="com.github.orhanobut:hawk-1.21">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hawk-1.21.aar/18534126868b0b0f64fe1eec9c1b846f/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hawk-1.21.aar/18534126868b0b0f64fe1eec9c1b846f/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
