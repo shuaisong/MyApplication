@@ -23,6 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="android.max_aspect"  android:value="ratio_float"/>
+
         <activity android:name=".view.activity.MainActivity" />
         <activity
             android:name=".view.activity.LeadActivity"
@@ -53,9 +55,6 @@
         <activity
             android:name=".view.activity.DetailImgActivity"
             android:theme="@style/FullScreen" />
-        <activity
-            android:name=".view.ShowVersionDialog"
-            android:theme="@style/AlertNoActionBar" />
         <!--7.0-->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -67,6 +66,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
         </provider>
+        <activity android:name=".view.activity.CommetActivity"
+            />
     </application>
 
 </manifest>

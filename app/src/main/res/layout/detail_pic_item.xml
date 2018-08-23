@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:id="@+id/detail_img"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/dp_75"
-    android:layout_marginTop="@dimen/dp_25"
+    android:layout_marginBottom="@dimen/dp_18"
+    android:layout_marginTop="@dimen/dp_18"
     android:contentDescription="@string/app_name" />
