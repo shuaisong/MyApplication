@@ -115,7 +115,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/photo_list_divider_height"
-            android:checked="true"
+            android:checked="false"
             android:switchMinWidth="@dimen/dp_25"
             android:textOff=""
             android:textOn=""

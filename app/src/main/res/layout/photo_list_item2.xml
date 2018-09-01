@@ -15,17 +15,19 @@
 
     <TextView
         android:id="@+id/photo_list_item_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_alignEnd="@id/photo_list_item_image"
+        android:gravity="center"
         android:layout_alignParentEnd="true"
-        android:layout_alignRight="@id/photo_list_item_image"
+        android:textColor="@android:color/white"
         android:background="@drawable/num_style" />
 
     <TextView
         android:id="@+id/photo_list_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_below="@id/photo_list_item_image"
         android:ellipsize="middle"
         android:singleLine="true" />

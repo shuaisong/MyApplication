@@ -42,19 +42,20 @@
             app:tabIndicatorColor="@android:color/background_light"
             app:tabIndicatorHeight="3dp"
             app:tabMode="fixed"
+            style="@style/TabLayoutTextStyle"
             app:tabSelectedTextColor="@android:color/background_light"
             app:tabTextAppearance="@android:style/TextAppearance.Medium"
             app:tabTextColor="#FBBBC9">
 
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/photo_new" />
+            <!-- <android.support.design.widget.TabItem
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+                 android:text="@string/photo_new" />
 
-            <android.support.design.widget.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/hot" />
+             <android.support.design.widget.TabItem
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+                 android:text="@string/hot" />-->
         </android.support.design.widget.TabLayout>
     </RelativeLayout>
 

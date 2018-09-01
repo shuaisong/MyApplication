@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.lenovo.myapplication.view.VideoActivity">
+
+    <cn.jzvd.JZVideoPlayerStandard
+        android:id="@+id/player"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        app:layout_constraintTop_toBottomOf="@id/player">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/video_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:id="@+id/play_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="@dimen/dp_8"
+                app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/video_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_200"
+                android:padding="@dimen/dp_8"
+                android:paddingEnd="@dimen/dp_0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/video_commend_left"
+                android:padding="@dimen/dp_8"
+                android:text="@string/comment"
+                android:textColor="@color/colorAccent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/commend_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36"
+        android:background="@color/agree"
+        android:gravity="center_vertical"
+        android:visibility="visible"
+        android:weightSum="20"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <EditText
+            android:id="@+id/comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_weight="12.5"
+            android:background="@drawable/edit_style"
+            android:focusable="false"
+            android:hint="@string/comment_if_like"
+            android:inputType="none"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sp_14" />
+
+        <ImageView
+            android:id="@+id/comments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_video_comment_n" />
+
+        <TextView
+            android:id="@+id/comments_num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_weight="1"
+            android:lines="1"
+            android:textSize="@dimen/sp_7" />
+
+        <CheckBox
+            android:id="@+id/prise"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="@drawable/videio_praise_check_red_style"
+            android:button="@null"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:id="@+id/prise_num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_weight="1"
+            android:textSize="@dimen/sp_7" />
+
+        <CheckBox
+            android:id="@+id/collect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:background="@drawable/vedio_collect_ckeck_red_style"
+            android:button="@null"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:id="@+id/collect_num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_weight="1"
+            android:textSize="@dimen/sp_7" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

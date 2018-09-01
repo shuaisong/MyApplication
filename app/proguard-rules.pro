@@ -83,3 +83,29 @@
 #-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
 #    rx.internal.util.atomic.LinkedQueueNode consumerNode;
 #}
+
+### greenDAO 3
+
+-keep class org.greenrobot.greendao.**{*;}
+
+-keep public class * extends org.greenrobot.greendao.AbstractDao
+
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+
+    public static java.lang.String TABLENAME;
+
+}
+
+-keep class **$Properties
+
+-keepclassmembers class **$Properties {*;}
+# glide 的混淆代码
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+# banner 的混淆代码
+-keep class com.youth.banner.** {
+    *;
+ }

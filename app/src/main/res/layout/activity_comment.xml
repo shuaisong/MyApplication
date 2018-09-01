@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <RelativeLayout
-        android:id="@+id/toolbar"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
-        android:paddingEnd="@dimen/dp_8"
-        android:paddingStart="@dimen/dp_8"
-        app:layout_constraintTop_toTopOf="parent">
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -20,28 +20,39 @@
             android:src="@mipmap/icon_back" />
 
         <TextView
+            android:id="@+id/commend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/comment"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/sp_25" />
+            android:textSize="@dimen/sp_20" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/commend"
             android:hint="@string/report"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_18"
+            tools:ignore="RelativeOverlap" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:layout_alignParentBottom="true"
+            android:background="@color/update" />
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_comment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingEnd="@dimen/dp_1"
+        android:paddingStart="@dimen/dp_15"
         app:layout_constraintBottom_toTopOf="@id/bottom"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/title">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_comment"
@@ -57,16 +68,17 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_toStartOf="@id/send"
-            android:enabled="false"
-            android:textSize="@dimen/sp_16"
+            android:id="@+id/comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_toStartOf="@id/send"
             android:background="@drawable/edit_style"
             android:hint="@string/comment_if_like"
-            android:inputType="none" />
+            android:focusable="false"
+            android:inputType="none"
+            android:textSize="@dimen/sp_16" />
 
         <Button
             android:id="@+id/send"

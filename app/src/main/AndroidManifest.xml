@@ -6,7 +6,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
+    <uses-permission
+        android:name="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
         tools:ignore="ProtectedPermissions" />
     <!--
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -23,9 +24,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="android.max_aspect"  android:value="ratio_float"/>
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="ratio_float" />
 
-        <activity android:name=".view.activity.MainActivity" />
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreen" />
         <activity
             android:name=".view.activity.LeadActivity"
             android:theme="@style/WelcomeStyle">
@@ -55,19 +62,31 @@
         <activity
             android:name=".view.activity.DetailImgActivity"
             android:theme="@style/FullScreen" />
-        <!--7.0-->
+        <!-- 7.0 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.lenovo.myapplication"
             android:exported="false"
             android:grantUriPermissions="true">
-            <!--元数据-->
+
+            <!-- 元数据 -->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
         </provider>
-        <activity android:name=".view.activity.CommetActivity"
-            />
+
+        <activity
+            android:name=".view.activity.CommentActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".view.activity.CustomErrorActivity" />
+        <activity
+            android:name=".view.activity.GridDetailImgActivity"
+            android:theme="@style/FullScreen" />
+        <activity
+            android:name=".view.VideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreen" />
     </application>
 
 </manifest>

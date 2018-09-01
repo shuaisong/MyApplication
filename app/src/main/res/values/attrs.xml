@@ -17,4 +17,10 @@
         <attr name="circulationCount" format="integer" />
 
     </declare-styleable>
+    <declare-styleable name="CircleHead">
+        <attr name="circleBorderHeadWidth" format="dimension" />
+        <attr name="ringHeadColor" format="color" />
+        <attr name="backgroundHeadColor" format="color" />
+    </declare-styleable>
+
 </resources>
