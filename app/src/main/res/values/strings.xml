@@ -53,4 +53,11 @@
     <string name="report_success">举报成功</string>
     <string name="play_n_count">播放%d次</string>
     <string name="video_n_count">%d次播放</string>
+    <string name="search">搜索</string>
+    <string name="back">返回</string>
+    <string name="search_img_video">搜索私照/视频</string>
+    <string name="search_by_content">搜索指定内容</string>
+    <string name="hot_search">热门搜索</string>
+    <string name="search_img">搜索私照</string>
+    <string name="search_video">搜索视频</string>
 </resources>

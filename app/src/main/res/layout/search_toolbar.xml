@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/colorAccent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="bottom"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dp_10"
+    android:weightSum="10">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:contentDescription="@string/back"
+        android:src="@mipmap/search_nav_icon_back" />
+
+    <com.example.lenovo.myapplication.view.CustomEditText
+        android:id="@+id/et_search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="7.5"
+        android:background="@drawable/search_edit_style"
+        android:hint="@string/search_img_video"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:text="@string/search"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_18" />
+</LinearLayout>

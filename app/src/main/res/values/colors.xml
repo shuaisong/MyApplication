@@ -10,4 +10,8 @@
     <color name="update">#B2B2B2</color>
     <color name="dark_transparent">#7f000000</color>
     <color name="bg">#EFEFEF</color>
+    <color name="index1">#F57088</color>
+    <color name="index2">#F4A678</color>
+    <color name="index3">#47C0A2</color>
+
 </resources>

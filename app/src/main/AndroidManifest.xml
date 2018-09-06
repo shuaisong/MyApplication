@@ -23,7 +23,7 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/FullScreen">
         <meta-data
             android:name="android.max_aspect"
             android:value="ratio_float" />
@@ -31,10 +31,12 @@
         <activity
             android:name=".view.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen" />
         <activity
             android:name=".view.activity.LeadActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/WelcomeStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,10 +85,20 @@
             android:name=".view.activity.GridDetailImgActivity"
             android:theme="@style/FullScreen" />
         <activity
-            android:name=".view.VideoActivity"
+            android:name=".view.activity.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen" />
+        <activity
+            android:name=".view.activity.SearchActivity"
+            android:theme="@style/FullScreen" />
+        <activity
+            android:name=".view.activity.Img_Video_Result"
+            android:theme="@style/ImgVideoFullScreen" />
+        <activity
+            android:name=".view.activity.HotSearchActivity"
+            android:theme="@style/FullScreen" />
+        <activity android:name=".view.LabelActivity" />
     </application>
 
 </manifest>

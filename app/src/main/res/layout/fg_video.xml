@@ -13,6 +13,7 @@
             android:background="@color/colorAccent">
 
             <TextView
+                android:id="@+id/video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -21,6 +22,14 @@
                 android:textSize="@dimen/sp_25"
                 android:textStyle="bold"
                 android:text="@string/index_video" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/video"
+                android:layout_marginEnd="18dp"
+                android:src="@mipmap/nav_icon_search" />
         </RelativeLayout>
 
 
