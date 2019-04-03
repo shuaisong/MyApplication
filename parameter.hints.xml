@@ -1,0 +1,14 @@
+<application>
+  <component name="ParameterNameHintsSettings">
+    <blacklists>
+      <blacklist language="Java">
+        <added pattern="android.widget.ArrayAdapter.ArrayAdapter(context,resource,textViewResourceId,objects)" />
+        <added pattern="com.reeching.sanitation.app.util.ToastUtil.showToast(context,message)" />
+        <added pattern="android.widget.Toast.makeText(context,text,duration)" />
+        <added pattern="com.example.lenovo.myapplication.utils.ToastUtil.show(msg)" />
+        <added pattern="com.reeching.uoter.utils.ToastUtil.showToast(context,message)" />
+        <added pattern="com.reeching.logistics.utils.AppUtil.showToast(context,info)" />
+      </blacklist>
+    </blacklists>
+  </component>
+</application>

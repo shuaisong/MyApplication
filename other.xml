@@ -1,0 +1,60 @@
+<application>
+  <component name="CvsApplicationLevelConfiguration">
+    <option name="PATH_TO_PASSWORD_FILE" value="$userdir/.cvspass" />
+  </component>
+  <component name="RefactoringSettings">
+    <option name="MOVE_PREVIEW_USAGES" value="false" />
+    <option name="INTRODUCE_FIELD_VISIBILITY" value="private" />
+    <option name="INTRODUCE_LOCAL_CREATE_FINALS" value="false" />
+  </component>
+  <component name="SvnApplicationSettings">
+    <option name="myCheckoutURLs">
+      <list>
+        <option value="https://192.168.1.102/svn/src/trunk/%E4%BC%98%E7%94%9F%E6%B4%BB/android/uoter" />
+        <option value="https://192.168.1.102/svn/src/trunk/智慧环卫/android/Sanitation1" />
+        <option value="https://192.168.1.102/svn/src/trunk/艺术区管理/android/BlueGrass1/BlueGrass1" />
+        <option value="https://192.168.1.102/svn/src/trunk/电子书移动端/android/Epu" />
+        <option value="https://192.168.1.102/svn/src/trunk/%E7%94%B5%E5%95%86%E8%BF%9B%E5%86%9C%E6%9D%91/app/android" />
+        <option value="https://192.168.1.102/svn/src/trunk/电商进农村/app/android" />
+        <option value="https://192.168.1.102/svn/src/trunk/智慧环卫/android/Sanitation" />
+      </list>
+    </option>
+    <option name="myTypedURLs">
+      <list>
+        <option value="https://192.168.1.102/svn/src/trunk/电子书移动端/android" />
+        <option value="https://192.168.1.102/svn/src/trunk/%E4%BC%98%E7%94%9F%E6%B4%BB/android/uoter" />
+        <option value="https://192.168.1.102/svn/src/trunk/智慧环卫/android/Sanitation1" />
+        <option value="https://192.168.1.102/svn/src/trunk/智慧环卫/android/Sanitation" />
+        <option value="https://192.168.1.102/svn/src/trunk/艺术区管理/android/BlueGrass1/BlueGrass1" />
+        <option value="https://192.168.1.102/svn/src/trunk/电子书移动端/android/Epu" />
+        <option value="https://192.168.1.102/svn/src/trunk/优生活/android/uoter" />
+        <option value="https://192.168.1.102/svn/src/trunk/优生活/android/" />
+        <option value="https://192.168.1.102/svn/src/trunk/电商进农村/app/android" />
+        <option value="https://192.168.1.102/svn/src/trunk/电商进农村/app/android/ERP11" />
+        <option value="https://192.168.1.102/svn/src/trunk/%E7%94%B5%E5%95%86%E8%BF%9B%E5%86%9C%E6%9D%91/app/android" />
+        <option value="https://192.168.1.102/svn/src/trunk/电商进农村/app/android/ERP1" />
+      </list>
+    </option>
+    <option name="mySvnCommandLine" value="C:\Program Files\TortoiseSVN\bin\svn.exe" />
+  </component>
+  <component name="SvnBranchMapperManager">
+    <option name="myMapping">
+      <map>
+        <entry key="https://192.168.1.102/svn/src/trunk/优生活/android">
+          <value>
+            <set>
+              <option value="E:\Andoid_studio\studio\workpace\project\uoter" />
+            </set>
+          </value>
+        </entry>
+        <entry key="https://192.168.1.102/svn/src/trunk/智慧环卫/android/Sanitation/Sanitation/trunk">
+          <value>
+            <set>
+              <option value="E:\Andoid_studio\studio\Sanitation" />
+            </set>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</application>
