@@ -9,7 +9,8 @@
         android:layout_width="@dimen/dp_140"
         android:layout_height="@dimen/dp_80"
         android:src="@mipmap/video_cover_284"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/index_video" />
 
     <TextView
         android:id="@+id/duration"

@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_160"
-        android:background="@mipmap/mine_bg">
+        android:background="@color/colorAccent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -106,10 +106,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/private_img"
             android:layout_toEndOf="@id/private_img"
-            android:text="@string/private_mm31"
+            android:hint="@string/private_mm31"
             android:textSize="@dimen/sp_10" />
 
         <Switch
+            android:id="@+id/switch_private"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="line">
+    <!--<solid android:color="@color/black_overlay" />-->
+    <stroke
+        android:width="@dimen/dp_2"
+        android:color="#c17272" />
+    <size android:height="@dimen/dp_4" />
+</shape>

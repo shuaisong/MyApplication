@@ -44,6 +44,7 @@
     <string name="close">关闭</string>
     <string name="dialog_title">登陆你的MM131,体验更多精彩瞬间</string>
     <string name="input_num">请输入手机号码</string>
+    <string name="input_verify">请输入验证码</string>
     <string name="other_way">其他方式登录</string>
     <string name="sina">sina</string>
     <string name="qq">qq</string>

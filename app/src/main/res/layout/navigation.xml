@@ -6,51 +6,28 @@
 
     <RadioButton
         android:id="@+id/photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:background="#00000000"
-        android:button="@null"
+        style="@style/navigation_radio_style"
         android:checked="true"
-        android:drawableTop="@drawable/index_photo"
         android:text="@string/privatePhoto"
-        android:textAlignment="center" />
+        android:drawableTop="@drawable/index_photo"
+        android:textColor="@drawable/navigation_text_color" />
 
     <RadioButton
         android:id="@+id/video"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:background="#00000000"
-        android:button="@null"
+        style="@style/navigation_radio_style"
         android:drawableTop="@drawable/index_video"
-        android:text="@string/index_video"
-        android:textAlignment="center" />
+        android:text="@string/index_video" />
 
     <RadioButton
         android:id="@+id/collect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:background="#00000000"
-        android:button="@null"
+        style="@style/navigation_radio_style"
         android:drawableTop="@drawable/index_collect"
-        android:text="@string/index_collect"
-        android:textAlignment="center" />
+        android:text="@string/index_collect" />
 
     <RadioButton
+        style="@style/navigation_radio_style"
         android:id="@+id/mine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#00000000"
-        android:button="@null"
         android:drawableTop="@drawable/index_mine"
-        android:gravity="center_horizontal"
-        android:text="@string/index_mine"
-        android:textAlignment="center" />
+        android:text="@string/index_mine" />
 
 </RadioGroup>

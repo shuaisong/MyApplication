@@ -9,7 +9,7 @@
             android:id="@+id/toolbar"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_80"
+            android:layout_height="?android:attr/actionBarSize"
             android:background="@color/colorAccent">
 
             <TextView
@@ -24,11 +24,15 @@
                 android:text="@string/index_video" />
 
             <ImageView
+                android:id="@+id/search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/video"
+                android:layout_alignBottom="@id/video"
+                android:layout_alignEnd="@id/video"
+                android:layout_alignTop="@id/video"
                 android:layout_marginEnd="18dp"
+                android:contentDescription="@string/search"
                 android:src="@mipmap/nav_icon_search" />
         </RelativeLayout>
 

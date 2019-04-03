@@ -10,5 +10,6 @@
         android:layout_height="wrap_content"
         android:gravity="top|center"
         android:numColumns="4"
+        android:listSelector="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

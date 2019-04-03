@@ -6,6 +6,7 @@
     <color name="mine_bg">#FBFBFB</color>
     <color name="agree">#F0F0F0</color>
     <color name="white">#ffffff</color>
+    <color name="white_tr">#00ffffff</color>
     <color name="black_overlay">#66000000</color>
     <color name="update">#B2B2B2</color>
     <color name="dark_transparent">#7f000000</color>
@@ -13,5 +14,6 @@
     <color name="index1">#F57088</color>
     <color name="index2">#F4A678</color>
     <color name="index3">#47C0A2</color>
+    <color name="primary_material_dark">#181818</color>
 
 </resources>

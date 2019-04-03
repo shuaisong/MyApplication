@@ -3,91 +3,118 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/poupwindow_bg">
+    android:background="@android:color/transparent">
 
-    <ImageView
-        android:id="@+id/popup_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/close"
-        android:src="@mipmap/ic_dialog_close"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/dialog_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_70"
-        android:text="@string/dialog_title"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/phone"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_30"
-        android:background="@drawable/edit_style"
-        android:hint="@string/input_num"
-        android:inputType="phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
-
-    <TextView
-        android:id="@+id/other_way"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_margin="@dimen/dp_15"
-        android:hint="@string/other_way"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone" />
-
-    <LinearLayout
-        android:id="@+id/other"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_15"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/other_way">
+        android:background="@drawable/poupwindow_bg"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
+            android:id="@+id/popup_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_25"
-            android:layout_marginStart="@dimen/dp_25"
-            android:contentDescription="@string/sina"
-            android:src="@mipmap/icon_sina_round" />
+            android:layout_margin="16dp"
+            android:contentDescription="@string/close"
+            android:src="@mipmap/ic_dialog_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_25"
-            android:layout_marginStart="@dimen/dp_25"
-            android:contentDescription="@string/qq"
-            android:src="@mipmap/icon_qq_round" />
+            android:layout_marginTop="@dimen/dp_70"
+            android:text="@string/dialog_title"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_30"
+            android:background="@drawable/edit_style"
+            android:hint="@string/input_num"
+            android:inputType="phone"
+            android:drawableStart="@mipmap/icon_mobile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
+        <EditText
+            android:id="@+id/verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_30"
+            android:layout_marginEnd="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_15"
+            android:background="@drawable/edit_style"
+            android:hint="@string/input_num"
+            android:inputType="numberPassword"
+            android:visibility="gone"
+            android:drawableStart="@mipmap/icon_code"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone" />
+        <TextView
+            android:id="@+id/other_way"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginTop="@dimen/dp_15"
+            android:hint="@string/other_way"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verify" />
+
+        <LinearLayout
+            android:id="@+id/other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/other_way">
+
+            <ImageView
+                android:id="@+id/weibo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_25"
+                android:layout_marginStart="@dimen/dp_25"
+                android:contentDescription="@string/sina"
+                android:src="@mipmap/icon_sina_round" />
+
+            <ImageView
+                android:id="@+id/qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_25"
+                android:layout_marginStart="@dimen/dp_25"
+                android:contentDescription="@string/qq"
+                android:src="@mipmap/icon_qq_round" />
+
+            <ImageView
+                android:id="@+id/wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_25"
+                android:layout_marginStart="@dimen/dp_25"
+                android:contentDescription="@string/wechat"
+                android:src="@mipmap/icon_wechat_round" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_25"
-            android:layout_marginStart="@dimen/dp_25"
-            android:contentDescription="@string/wechat"
-            android:src="@mipmap/icon_wechat_round" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_25"
-        android:hint="@string/mm131"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/other" />
+            android:layout_marginTop="@dimen/dp_25"
+            android:hint="@string/mm131"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/other" />
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

@@ -2,17 +2,21 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.lenovo.myapplication.view.activity.Img_Video_Result">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
+        android:layout_height="@dimen/dp_150"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_150">
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentScrim="@color/colorAccent"
@@ -21,7 +25,7 @@
             <ImageView
                 android:id="@+id/fruit_image_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ddd4bfd9a4dd6c29a993f457ef0d2644"
@@ -30,11 +34,14 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@mipmap/icon_back_white_ad"
-                app:titleTextColor="@color/white">
+                app:subtitle="@string/cancel"
+                app:subtitleTextAppearance="@style/Theme.ToolBar.App.Subtitle"
+                app:title="@string/app_name"
+                app:titleTextAppearance="@style/Theme.ToolBar.App.Title">
 
             </android.support.v7.widget.Toolbar>
 
@@ -68,11 +75,11 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@android:drawable/ic_menu_share"
-        app:layout_anchor="@id/appBar"
-        app:layout_anchorGravity="bottom|end" />
+    <!--    <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@android:drawable/ic_menu_share"
+            app:layout_anchor="@id/appBar"
+            app:layout_anchorGravity="bottom|end" />-->
 </android.support.design.widget.CoordinatorLayout>

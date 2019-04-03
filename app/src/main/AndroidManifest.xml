@@ -18,33 +18,43 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/icon_app"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/FullScreen">
+        android:resizeableActivity="true"
+        android:theme="@style/AppTheme">
+        <!--全面屏-->
         <meta-data
             android:name="android.max_aspect"
             android:value="ratio_float" />
-
+        <!--刘海屏-->
+        <meta-data android:name="android.notch_support" android:value="true"/>
         <activity
             android:name=".view.activity.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreen" />
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".view.activity.LeadActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/WelcomeStyle">
+            android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.WelcomeActivity" />
+        <activity
+            android:name=".view.activity.WelcomeActivity"
+            android:theme="@style/FullScreen">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
 
         <receiver
             android:name=".BroadcastReceiver.NetBroadcastReceiver"
@@ -63,7 +73,11 @@
 
         <activity
             android:name=".view.activity.DetailImgActivity"
-            android:theme="@style/FullScreen" />
+            android:theme="@style/translucent1">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
         <!-- 7.0 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -77,28 +91,54 @@
                 android:resource="@xml/file_path" />
         </provider>
 
-        <activity
-            android:name=".view.activity.CommentActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".view.activity.CustomErrorActivity" />
-        <activity
-            android:name=".view.activity.GridDetailImgActivity"
-            android:theme="@style/FullScreen" />
+        <activity android:name=".view.activity.CommentActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".view.activity.GridDetailImgActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".view.activity.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/FullScreen" />
-        <activity
-            android:name=".view.activity.SearchActivity"
-            android:theme="@style/FullScreen" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".view.activity.SearchActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".view.activity.Img_Video_Result"
-            android:theme="@style/ImgVideoFullScreen" />
-        <activity
-            android:name=".view.activity.HotSearchActivity"
-            android:theme="@style/FullScreen" />
+            android:theme="@style/FullScreen">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".view.activity.HotSearchActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
         <activity android:name=".view.LabelActivity" />
+        <activity
+            android:name=".view.activity.LogInActivity"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+            <intent-filter>
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".BroadcastReceiver.NotificationReceiver"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
