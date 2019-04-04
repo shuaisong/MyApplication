@@ -1,0 +1,12 @@
+<application>
+  <component name="FileTypeManager" version="17">
+    <extensionMap>
+      <mapping pattern="xposed_init" type="PLAIN_TEXT" />
+      <mapping ext="svntmp" type="PLAIN_TEXT" />
+      <mapping ext="rawproto" type="PLAIN_TEXT" />
+      <mapping ext="jks" type="PLAIN_TEXT" />
+      <mapping ext="db" type="SQL" />
+      <mapping ext="epub" type="XHTML" />
+    </extensionMap>
+  </component>
+</application>
