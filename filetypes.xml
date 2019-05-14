@@ -3,8 +3,10 @@
     <extensionMap>
       <mapping pattern="xposed_init" type="PLAIN_TEXT" />
       <mapping pattern=".flowconfig" type="PLAIN_TEXT" />
+      <mapping pattern="hello" type="PLAIN_TEXT" />
       <mapping ext="svntmp" type="PLAIN_TEXT" />
       <mapping ext="rawproto" type="PLAIN_TEXT" />
+      <mapping ext="mk" type="PLAIN_TEXT" />
       <mapping ext="jks" type="PLAIN_TEXT" />
       <mapping ext="db" type="SQL" />
       <mapping ext="epub" type="XHTML" />
