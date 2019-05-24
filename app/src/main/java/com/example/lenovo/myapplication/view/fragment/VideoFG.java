@@ -172,6 +172,7 @@ public class VideoFG extends BaseFragment implements SwipeRefreshLayout.OnRefres
         Collections.reverse(mNewVideoList);
         if (videoAdapter.getStatus()==Contant.load){
             videoList.addAll(mNewVideoList);
+            videoAdapter.notifyItemInserted(videoList.size() - mNewVideoList.size());
         }
         if (videoAdapter.getStatus()==Contant.fresh){
             if (!videoList.containsAll(mNewVideoList)){
@@ -179,8 +180,8 @@ public class VideoFG extends BaseFragment implements SwipeRefreshLayout.OnRefres
                 videoList.addAll(mNewVideoList);
             }
             swipeRefreshLayout.setRefreshing(false);
+            videoAdapter.notifyDataSetChanged();
         }
-         videoAdapter.notifyDataSetChanged();
         videoAdapter.setStatus(Contant.normal);
     }
 

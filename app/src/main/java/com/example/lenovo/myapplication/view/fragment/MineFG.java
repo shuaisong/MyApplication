@@ -60,11 +60,10 @@ public class MineFG extends BaseFragment  {
     protected void initData() {
       //  EventBus.getDefault().register(this);
         login = PreferenceManager.getInstance().getLogin();
-        back = false;
         switch_private.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!login&&!back){
+                if (!login ){
                     startActivityForResult(new Intent(getContext(),LogInActivity.class),102);
                 }else {
 
@@ -99,9 +98,8 @@ public class MineFG extends BaseFragment  {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode==102&&resultCode==102){
-            back = true;
-            boolean mLogin = data.getBooleanExtra("login", false);
-            switch_private.setChecked(mLogin);
+           login = data.getBooleanExtra("login", false);
+            switch_private.setChecked(login);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

@@ -1,6 +1,7 @@
 package com.example.lenovo.myapplication.view.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Environment;
 import android.view.KeyEvent;
@@ -17,9 +18,14 @@ import com.example.lenovo.myapplication.component.AppComponent;
 import com.example.lenovo.myapplication.component.DaggerActivityComponent;
 import com.example.lenovo.myapplication.presenter.LeadPresenter;
 import com.example.lenovo.myapplication.utils.LogUtil;
+import com.example.lenovo.myapplication.utils.MD5Utils;
 import com.example.lenovo.myapplication.utils.PreferenceManager;
+import com.example.lenovo.myapplication.utils.RSAUtils;
+import com.example.lenovo.myapplication.utils.StatusBarUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.security.KeyPair;
 import java.util.Arrays;
 
 import javax.inject.Inject;
@@ -36,13 +42,24 @@ public class LeadActivity extends BaseActivity implements LeadContact.View {
 
     @Override
     protected void initData() {
+        LogUtil.d(MD5Utils.getMd5String("AA"));
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "XX.txt";
+        try {
+            LogUtil.d(MD5Utils.md5ForFile(new File(path)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        KeyPair mKeyPair = RSAUtils.generateKeyPair(512);
+        String mS = RSAUtils.encryptDataByPublicKey("AAAAAA".getBytes(), mKeyPair.getPublic());
+        LogUtil.d(mS);
+        LogUtil.d(RSAUtils.decryptToStrByPrivate(mS, mKeyPair.getPrivate()));
         presenter.initData();
         presenter.checkVersion();
         presenter.feedBack();
         presenter.getSearchKey(Contant.SearchSign1, "1");
         presenter.getSearchKey(Contant.SearchSign2, "2");
         presenter.getRecommend();
-        showFileInfo();
+//        showFileInfo();
     }
 
     private void showFileInfo() {
@@ -70,6 +87,12 @@ public class LeadActivity extends BaseActivity implements LeadContact.View {
 
     @Override
     protected void initViews() {
+        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+        StatusBarUtil.setRootViewFitsSystemWindows(this,true);
+        //设置状态栏透明
+        StatusBarUtil.setTranslucentStatus(this);
+        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        StatusBarUtil.setStatusBarColor(this, Color.TRANSPARENT);
         presenter.attachView(this);
     }
 
@@ -124,6 +147,7 @@ public class LeadActivity extends BaseActivity implements LeadContact.View {
     @Override
     public void feedBack( ) {
         count++;
+        LogUtil.d(count);
         if (count>=6){startActivity();}
     }
 

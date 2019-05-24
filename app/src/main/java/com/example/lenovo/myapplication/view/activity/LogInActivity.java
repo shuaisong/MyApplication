@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.bean.Login;
 import com.example.lenovo.myapplication.utils.LogUtil;
+import com.example.lenovo.myapplication.utils.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -33,7 +34,12 @@ public class LogInActivity extends Activity implements ViewTreeObserver.OnGlobal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         ButterKnife.bind(this);
-
+        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+        StatusBarUtil.setRootViewFitsSystemWindows(this,true);
+        //设置状态栏透明
+        StatusBarUtil.setTranslucentStatus(this);
+        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        StatusBarUtil.setStatusBarColor(this,getResources().getColor(R.color.login));
         mRoot.getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 

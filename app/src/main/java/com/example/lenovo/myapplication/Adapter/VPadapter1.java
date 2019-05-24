@@ -3,7 +3,6 @@ package com.example.lenovo.myapplication.Adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.bean.DetailImgUrl;
+import com.example.lenovo.myapplication.interfaces.RecyclerViewOnScrollListener;
 import com.example.lenovo.myapplication.utils.LogUtil;
-import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -52,41 +51,63 @@ public class VPadapter1 extends PagerAdapter {
 
     public void setViewAtFirst(int position) {
         View mView = viewList.get(position);
-        ViewPager viewpager = mView.findViewById(R.id.viewpager);
-        if (viewpager != null) {
-            viewpager.setCurrentItem(0);
+        RecyclerView mRecyclerView = mView.findViewById(R.id.recycler);
+        if (mRecyclerView != null) {
+            mRecyclerView.scrollToPosition(0);
         }
     }
 
     public void setPosition(int position, int hPosition) {
         View mView = viewList.get(position);
-        ViewPager viewpager = mView.findViewById(R.id.viewpager);
-        if (viewpager != null) {
-            viewpager.setCurrentItem(hPosition);
+        RecyclerView mRecyclerView = mView.findViewById(R.id.recycler);
+        if (mRecyclerView != null) {
+            mRecyclerView.scrollToPosition(hPosition);
         }
     }
 
     public void addData(final DetailImgUrl.DataObjBean dataObjBean) {
         final VPViewHolder mViewHolder = new VPViewHolder();
-        viewList.add(mViewHolder.mRecycler);
-        LogUtil.d(viewList.size());
+        viewList.add(mViewHolder.view);
         if (viewList.size() >= 3) setFirstLoad(false);
-        LinearLayoutManager mPagerLayoutManager =
-                new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        mViewHolder.mRecycler.setLayoutManager(mPagerLayoutManager);
-
-        QDRecyclerViewAdapter mRecyclerViewAdapter = new QDRecyclerViewAdapter();
-        mRecyclerViewAdapter.setItemCount(10);
+        final LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        mViewHolder.mRecycler.setLayoutManager(mLinearLayoutManager);
+        QDRecyclerViewAdapter mRecyclerViewAdapter = new QDRecyclerViewAdapter(context, dataObjBean.getPicUrlList(), false);
         mViewHolder.mRecycler.setAdapter(mRecyclerViewAdapter);
-        int mCollectNum = dataObjBean.getPicUrlList().get(0).getCollection_num();
+        mViewHolder.mRecycler.addOnScrollListener(new RecyclerViewOnScrollListener(context) {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                LogUtil.d(newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE /*|| newState == RecyclerView.SCROLL_STATE_SETTLING*/) {
+                    int mPosition = mLinearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if (mPosition != -1)
+                        onItemPageSelectListener.onItemPageSelect(mPosition, getCollectNum(dataObjBean.getPicUrlList().get(mPosition)));
+                }
+            }
+        });
+        mRecyclerViewAdapter.setOnItemClickListener(new com.example.lenovo.myapplication.interfaces.OnItemClickListener<DetailImgUrl.DataObjBean.PicUrlListBean>() {
+            @Override
+            public void onItemClick(ViewHolder viewHolder, DetailImgUrl.DataObjBean.PicUrlListBean data, int position) {
+                onItemClickListener.onItemClick(position, data);
+                onItemPageSelectListener.onItemPageSelect(position, getCollectNum(dataObjBean.getPicUrlList().get(position)));
+            }
+        });
+        // PagerSnapHelper每次只能滚动一个item;用LinearSnapHelper则可以一次滚动多个，并最终保证定位
+        // mSnapHelper = new LinearSnapHelper();
+        PagerSnapHelper mSnapHelper = new PagerSnapHelper();
+        mSnapHelper.attachToRecyclerView(mViewHolder.mRecycler);
+        onItemPageSelectListener.onItemPageSelect(0, getCollectNum(dataObjBean.getPicUrlList().get(0)));
+    }
+
+    private String getCollectNum(DetailImgUrl.DataObjBean.PicUrlListBean dataObjBean) {
+        int mCollectNum = dataObjBean.getCollection_num();
         String num = String.valueOf(mCollectNum);
         if (mCollectNum > 9999) {
             BigDecimal b1 = new BigDecimal(mCollectNum);
             BigDecimal b2 = new BigDecimal(1000);
             num = b1.divide(b2, 2, BigDecimal.ROUND_DOWN).toString();
         }
-        PagerSnapHelper mSnapHelper = new PagerSnapHelper();
-        mSnapHelper.attachToRecyclerView( mViewHolder.mRecycler);
+        return num;
     }
 
     @Override
@@ -114,11 +135,12 @@ public class VPadapter1 extends PagerAdapter {
     }
 
     public class VPViewHolder {
+        private final View view;
         @BindView(R.id.recycler)
         RecyclerView mRecycler;
 
         VPViewHolder() {
-            View view = LayoutInflater.from(context).inflate(R.layout.vp_recycler, null);
+            view = LayoutInflater.from(context).inflate(R.layout.justviewpager, null);
             ButterKnife.bind(this, view);
         }
     }

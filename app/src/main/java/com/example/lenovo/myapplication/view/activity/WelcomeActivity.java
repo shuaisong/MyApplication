@@ -33,9 +33,6 @@ public class WelcomeActivity extends AppCompatActivity {
         //透明导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         // StatusBar.statusBarTintColor(this, R.color.colorAccent);
-      /*  ActionBar mBar = getSupportActionBar();
-        assert mBar != null;
-        getSupportActionBar().hide();*/
         initView();
     }
 

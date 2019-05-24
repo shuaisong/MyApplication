@@ -1,13 +1,18 @@
 package com.example.lenovo.myapplication.view.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -30,7 +35,7 @@ import com.example.lenovo.myapplication.component.DaggerActivityComponent;
 import com.example.lenovo.myapplication.interfaces.OnItemClickListener;
 import com.example.lenovo.myapplication.interfaces.OnLoadMoreListener;
 import com.example.lenovo.myapplication.presenter.ImgVideoPresenter;
-import com.example.lenovo.myapplication.utils.OSUtils;
+import com.example.lenovo.myapplication.utils.LogUtil;
 import com.example.lenovo.myapplication.utils.PreferenceManager;
 import com.example.lenovo.myapplication.utils.StatusBarUtil;
 import com.example.lenovo.myapplication.utils.Util;
@@ -57,7 +62,9 @@ public class Img_Video_Result extends BaseActivity implements ImgVideoContact.Vi
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout mCollapsingToolbar;
+    CollapsingToolbarLayout mCollapsing_toolbar;
+    @BindView(R.id.appBar)
+    AppBarLayout mAppBar;
     private int type;
     private List<ArticleListBean> imgListBeans;
     private ImgResultAdapter imgResultAdapter;
@@ -138,22 +145,60 @@ public class Img_Video_Result extends BaseActivity implements ImgVideoContact.Vi
         }
     }
 
-   /* @Override
+    @Override
     protected void modifyStatus() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-    }*/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
 
+    @SuppressLint("NewApi")
     @Override
     protected void initViews() {
+        LogUtil.d(Build.VERSION.SDK_INT);
+        LogUtil.d(StatusBarUtil.isHuaweiNotch(this) + "");
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Window window = getWindow();
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            //设置页面全屏显示
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+//设置页面延伸到刘海区显示
+            window.setAttributes(lp);
+
+        } else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+            StatusBarUtil.setRootViewFitsSystemWindows(this, true);
+            //设置状态栏透明
+            StatusBarUtil.setTranslucentStatus(this);
+            StatusBarUtil.setStatusBarDarkTheme(this, false);
+        }*/
+        /*Window window = getWindow();
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(Color.TRANSPARENT);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);*/
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+
         //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
-        StatusBarUtil.setRootViewFitsSystemWindows(this, true);
+        StatusBarUtil.setRootViewFitsSystemWindows(this, false);
         //设置状态栏透明
         StatusBarUtil.setTranslucentStatus(this);
         StatusBarUtil.setStatusBarDarkTheme(this, false);
-        if (OSUtils.isEmui() && OSUtils.hasNotchInScreen(this.getApplicationContext()))
-            StatusBarUtil.setStatusBarColor(this, getResources().getColor(R.color.colorAccent));
-
+        setSupportActionBar(mToolbar);//设置toolbar
+        mCollapsing_toolbar.setCollapsedTitleGravity(Gravity.START);//设置收缩后标题的位置
+        mCollapsing_toolbar.setExpandedTitleGravity(Gravity.CENTER);////设置展开后标题的位置
+        LogUtil.d(mCollapsing_toolbar.getExpandedTitleMarginTop()
+                + ":" + mCollapsing_toolbar.getTop() + ":" + mCollapsing_toolbar.getExpandedTitleMarginTop());
+        LogUtil.d(StatusBarUtil.getStatusBarHeight(this));
+        mToolbar.setPadding(mToolbar.getPaddingStart(), StatusBarUtil.getStatusBarHeight(this),
+                mToolbar.getPaddingEnd(), mToolbar.getPaddingBottom());
+        mToolbar.setMinimumHeight(mToolbar.getMeasuredHeight());
         presenter.attachView(this);
         mSwip.setOnRefreshListener(this);
     }
@@ -215,16 +260,18 @@ public class Img_Video_Result extends BaseActivity implements ImgVideoContact.Vi
                     imgListBeans.clear();
                     imgListBeans.addAll(dataObjBean.getArticleList());
                 }
+                imgResultAdapter.notifyDataSetChanged();
             } else {
                 imgListBeans.addAll(dataObjBean.getArticleList());
                 if (dataObjBean.getArticleList().size() < 12) {
                     imgResultAdapter.setmOpenLoadMore(false);
                 }
+                imgResultAdapter.notifyItemInserted(imgListBeans.size() - dataObjBean.getArticleList().size());
+
             }
             lastId = imgListBeans.get(imgListBeans.size() - 1).getApid();
         }
         imgResultAdapter.setStatus(Contant.normal);
-        imgResultAdapter.notifyDataSetChanged();
         if (mSwip.isRefreshing()) {
             mSwip.setRefreshing(false);
         }
@@ -239,16 +286,17 @@ public class Img_Video_Result extends BaseActivity implements ImgVideoContact.Vi
                     videoListBeans.clear();
                     videoListBeans.addAll(dataObjBean.getVideoList());
                 }
+                videoResultAdapter.notifyDataSetChanged();
             } else {
                 videoListBeans.addAll(dataObjBean.getVideoList());
                 if (dataObjBean.getVideoList().size() < 12) {
                     videoResultAdapter.setmOpenLoadMore(false);
                 }
             }
+            videoResultAdapter.notifyItemInserted(videoListBeans.size() - dataObjBean.getArticleList().size());
             lastId = videoListBeans.get(videoListBeans.size() - 1).getAvid();
         }
         videoResultAdapter.setStatus(Contant.normal);
-        videoResultAdapter.notifyDataSetChanged();
         if (mSwip.isRefreshing()) {
             mSwip.setRefreshing(false);
         }

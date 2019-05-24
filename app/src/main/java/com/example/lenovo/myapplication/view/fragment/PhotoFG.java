@@ -14,6 +14,7 @@ import com.example.lenovo.myapplication.Contant;
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.base.BaseFragment;
 import com.example.lenovo.myapplication.component.AppComponent;
+import com.example.lenovo.myapplication.utils.LogUtil;
 import com.example.lenovo.myapplication.view.activity.MainActivity;
 import com.example.lenovo.myapplication.view.activity.SearchActivity;
 import com.squareup.leakcanary.RefWatcher;

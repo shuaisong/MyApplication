@@ -39,7 +39,7 @@ public class ImgPresenter extends RxPresenter<ImgFGContact.View> implements ImgF
                     @Override
                     public void onFail(int errCode, String errMsg) {
                         super.onFail(errCode, errMsg);
-                        LogUtil.d(errCode+errMsg);
+                        LogUtil.e(errCode+errMsg);
                     }
                 });
         /*RetrofitUtil.getInstance().toSubscribe(RetrofitUtil.createAPIService().getHotImg(sign, lastIndex),

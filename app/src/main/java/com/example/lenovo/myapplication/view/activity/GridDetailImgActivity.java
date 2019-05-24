@@ -8,6 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.lenovo.myapplication.Adapter.GridDetailImgAdapter;
 import com.example.lenovo.myapplication.Adapter.ViewHolder;
 import com.example.lenovo.myapplication.App;
@@ -19,6 +20,7 @@ import com.example.lenovo.myapplication.bean.SpaceItemDecoration;
 import com.example.lenovo.myapplication.db.DBHelper;
 import com.example.lenovo.myapplication.interfaces.OnItemClickListener;
 import com.example.lenovo.myapplication.utils.ConvertUtil;
+import com.example.lenovo.myapplication.utils.StatusBarUtil;
 
 import java.util.List;
 
@@ -44,6 +46,14 @@ public class GridDetailImgActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+        StatusBarUtil.setRootViewFitsSystemWindows(this,true);
+        //设置状态栏透明
+        StatusBarUtil.setTranslucentStatus(this);
+        StatusBarUtil.setStatusBarDarkTheme(this, true);
+        StatusBarUtil.setStatusBarColor(this,getResources().getColor(R.color.white));
+        Glide.with(this).load("http://pgdt.ugdtimg.com/gdt/0/DAAOR64AKAABkAAVBbY-s_CjGBvNiR.jpg/0?ck=5a7e4aa991813c823b8178724d91ba36")
+                .into(mGuanggao);
         DetailImgUrl.DataObjBean mDataObjBean = (DetailImgUrl.DataObjBean) getIntent().getSerializableExtra("DetailImgUrl");
         int mPosition = getIntent().getIntExtra("position", 0);
         assert mDataObjBean != null;

@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.lenovo.myapplication.Adapter.VPadapter;
+import com.example.lenovo.myapplication.Adapter.VPadapter1;
 import com.example.lenovo.myapplication.Contact.DetailImgContact;
 import com.example.lenovo.myapplication.Contant;
 import com.example.lenovo.myapplication.R;
@@ -83,7 +83,7 @@ public class DetailImgActivity extends BaseActivity implements DetailImgContact.
     CollapsingToolbarLayout collapsing_toolbar;
 
     private List<DetailImgUrl.DataObjBean> list;
-    private VPadapter vPadapter;
+    private VPadapter1 VPadapter1;
     private int currentPosition;
     private int mId=1;
     TreeMap<String, String> mMap = new TreeMap<>();
@@ -100,7 +100,7 @@ public class DetailImgActivity extends BaseActivity implements DetailImgContact.
     protected void initData() {
         mMap.put("apid",String.valueOf(mId));
         presenter.getPicUrlList(mId, Util.getSign(mMap));
-        vPadapter.setFirstLoad(true);
+        VPadapter1.setFirstLoad(true);
         Glide.with(this).load("http://pgdt.ugdtimg.com/gdt/0/DAAOR64AKAABkAAVBbY-s_CjGBvNiR.jpg/0?ck=5a7e4aa991813c823b8178724d91ba36")
                 .into(mGuanggao);
     }
@@ -155,16 +155,16 @@ private int mVerticalOffset;
             }
         });
         list = new ArrayList<>();
-        vPadapter = new VPadapter(this);
+        VPadapter1 = new VPadapter1(this);
         mDetailVp.setMinPageOffset(0.4f);
         mDetailVp.setPageMargin((int) getResources().getDimension(R.dimen.dp_100));
-        vPadapter.setOnitemClickListener(new VPadapter.OnItemClickListener() {
+        VPadapter1.setOnitemClickListener(new VPadapter1.OnItemClickListener() {
             @Override
             public void onItemClick(int position, DetailImgUrl.DataObjBean.PicUrlListBean bean) {
                 setViewVisible(true);
             }
         });
-        vPadapter.setOnItemPageSelectListener(new VPadapter.OnItemPageSelectListener() {
+        VPadapter1.setOnItemPageSelectListener(new VPadapter1.OnItemPageSelectListener() {
             @Override
             public void onItemPageSelect(int position, String num) {
                 childPagerSelect(position+1,num);
@@ -185,7 +185,7 @@ private int mVerticalOffset;
                 DBHelper.getInstance().getDaoMaster().getDatabase().close();
                 DBHelper.getInstance().close();
                 setViewVisible(false);
-                vPadapter.setViewAtFirst(currentPosition);
+                VPadapter1.setViewAtFirst(currentPosition);
                 if (currentPosition < position) {
                         positions.add(position);
                         mId++;
@@ -254,7 +254,7 @@ private int mVerticalOffset;
 
     @Override
     public void showImg(DetailImgUrl.DataObjBean dataObj) {
-        if (vPadapter.isFirstLoad()){
+        if (VPadapter1.isFirstLoad()){
             mId++;
             mMap.clear();
             mMap.put("apid",String.valueOf(mId));
@@ -275,11 +275,11 @@ private int mVerticalOffset;
             DBHelper.getInstance().getDaoMaster().getDatabase().close();
             DBHelper.getInstance().close();
         }
-        vPadapter.addData(dataObj);
+        VPadapter1.addData(dataObj);
 
         if (mDetailVp.getAdapter() == null)
-            mDetailVp.setAdapter(vPadapter);
-        vPadapter.notifyDataSetChanged();
+            mDetailVp.setAdapter(VPadapter1);
+        VPadapter1.notifyDataSetChanged();
     }
 
     @Override
@@ -325,6 +325,7 @@ private int mVerticalOffset;
                 mIntent1.putExtra("DetailImgUrl",mDataObjBean);
                 mIntent1.putExtra("position",Integer.valueOf(mIndex.getText().toString()));
                 startActivityForResult(mIntent1,Contant.DetailImgRequestCode);
+                setViewVisible(false);
                 break;
             case R.id.back:
                 finish();
@@ -336,7 +337,7 @@ private int mVerticalOffset;
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data!=null&&requestCode==Contant.DetailImgRequestCode&&resultCode==Contant.DetailImgResultCode){
             int mPosition = data.getIntExtra("position", Integer.valueOf(mIndex.getText().toString()) - 1);
-            vPadapter.setPosition(currentPosition,mPosition);
+            VPadapter1.setPosition(currentPosition,mPosition);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

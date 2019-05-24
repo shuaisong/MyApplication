@@ -1,9 +1,6 @@
 package com.example.lenovo.myapplication.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,8 +8,8 @@ import android.widget.ImageView;
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.bean.DetailImgUrl;
 import com.example.lenovo.myapplication.utils.PreferenceManager;
+import com.example.lenovo.myapplication.view.StrokeImageView;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -38,21 +35,23 @@ public class GridDetailImgAdapter extends CommonBaseRecycleAdapter<DetailImgUrl.
 
     @Override
     protected void convert(ViewHolder holder, DetailImgUrl.DataObjBean.PicUrlListBean data, int position) {
-        final ImageView imageView = holder.getView(R.id.img);
+        final StrokeImageView imageView = holder.getView(R.id.img);
         final ImageView choice = holder.getView(R.id.choice);
         ViewGroup.LayoutParams mLayoutParams = imageView.getLayoutParams();
 //        mLayoutParams.width = data.getWidth();
         mLayoutParams.height = data.getHeight();
         imageView.setLayoutParams(mLayoutParams);
         if (position==index-1){
-            choice.setVisibility(View.VISIBLE);
-            imageView.setImageResource(R.drawable.img_select_bg);
+            imageView.setSelect(true);
+           choice.setVisibility(View.VISIBLE);
+             /*imageView.setImageResource(R.drawable.img_select_bg);*/
         }else {
-            choice.setVisibility(View.INVISIBLE);
+            imageView.setSelect(false);
+            choice.setVisibility(View.GONE);
             imageView.setImageResource(android.R.color.transparent);
         }
         Picasso.get().load(PreferenceManager.getInstance().getPicUrlPrefix() + data.getPic_url())
-                .placeholder(R.mipmap.pic_classify_default).into(new Target() {
+                .placeholder(R.mipmap.pic_classify_default).into(imageView/*new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 imageView.setBackground(new BitmapDrawable(mContext.getResources(),bitmap));
@@ -67,7 +66,7 @@ public class GridDetailImgAdapter extends CommonBaseRecycleAdapter<DetailImgUrl.
             public void onPrepareLoad(Drawable placeHolderDrawable) {
                 imageView.setBackground(placeHolderDrawable);
             }
-        });
+        }*/);
     }
 
     @Override

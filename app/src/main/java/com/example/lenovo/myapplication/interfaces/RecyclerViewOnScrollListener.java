@@ -29,7 +29,7 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
                 mPicasso.pauseTag(context);
                 break;
             case RecyclerView.SCROLL_STATE_SETTLING:
-                mPicasso.pauseTag(context);
+                mPicasso.resumeTag(context);
                 break;
         }
     }

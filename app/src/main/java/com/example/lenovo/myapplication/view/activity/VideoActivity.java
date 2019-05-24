@@ -27,6 +27,7 @@ import com.example.lenovo.myapplication.component.DaggerActivityComponent;
 import com.example.lenovo.myapplication.interfaces.OnItemClickListener;
 import com.example.lenovo.myapplication.presenter.DetailVideoPresenter;
 import com.example.lenovo.myapplication.utils.PreferenceManager;
+import com.example.lenovo.myapplication.utils.StatusBarUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -77,6 +78,11 @@ public class VideoActivity extends BaseActivity implements DetailVideoContact.Vi
     @Override
     protected void initViews() {
         presenter.attachView(this);
+        StatusBarUtil.setRootViewFitsSystemWindows(this,true);
+        //设置状态栏透明
+        StatusBarUtil.setTranslucentStatus(this);
+        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        StatusBarUtil.setStatusBarColor(this,getResources().getColor(android.R.color.black));
         recommandVideoList = new ArrayList<>();
         mRecomandVideoAdapter = new RecomandVideoAdapter(this, recommandVideoList, false);
         mRecomandVideoAdapter.setOnItemClickListener(new OnItemClickListener<RecommandVideo.DataObjBean.HotPicListBean>() {

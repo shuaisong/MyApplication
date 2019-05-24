@@ -18,6 +18,8 @@ import com.squareup.leakcanary.RefWatcher;
 import com.vise.xsnow.common.ViseConfig;
 import com.vise.xsnow.http.ViseHttp;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -53,10 +55,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate: " + isDebug());
-        if (isDebug()) {
+        /*if (isDebug()) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
-        }
+        }*/
 
         mApp = this;
        // refWatcher = stepLeakCanary();

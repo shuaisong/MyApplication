@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.bean.NewVideo;
+import com.example.lenovo.myapplication.utils.LogUtil;
 import com.example.lenovo.myapplication.utils.PreferenceManager;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;

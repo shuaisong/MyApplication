@@ -219,10 +219,12 @@ public class ImgFG extends BaseFragment implements ImgFGContact.View,
             if (swip.isRefreshing()) {
                 picListBeans.clear();
                 picListBeans.addAll(hotPhoto.getDataObj().getHotPicList());
-            } else
+                list.getAdapter().notifyDataSetChanged();
+            } else {
                 picListBeans.addAll(picListBeans.size(), hotPhoto.getDataObj().getHotPicList());
+                list.getAdapter().notifyItemInserted(picListBeans.size() - hotPhoto.getDataObj().getHotPicList().size());
+            }
             lastIndex = hotPhoto.getDataObj().getLastIndex();
-            list.getAdapter().notifyDataSetChanged();
             swip.setRefreshing(false);
             DBHelper.getInstance().init(getContext());
             for (PicListBean b :
@@ -250,10 +252,13 @@ public class ImgFG extends BaseFragment implements ImgFGContact.View,
             if (swip.isRefreshing()) {
                 picListBeans.clear();
                 picListBeans.addAll(newPhoto.getDataObj().getNewPicList());
-            } else
+                list.getAdapter().notifyDataSetChanged();
+            } else {
                 picListBeans.addAll(picListBeans.size(), newPhoto.getDataObj().getNewPicList());
+                list.getAdapter().notifyItemInserted(picListBeans.size() - newPhoto.getDataObj().getNewPicList().size());
+            }
+
             lastIndex = newPhoto.getDataObj().getLastIndex();
-            list.getAdapter().notifyDataSetChanged();
             swip.setRefreshing(false);
             DBHelper.getInstance().init(getContext());
             for (PicListBean b :

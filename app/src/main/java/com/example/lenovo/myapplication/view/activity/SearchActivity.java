@@ -19,6 +19,8 @@ import com.example.lenovo.myapplication.utils.StatusBarUtil;
 import com.example.lenovo.myapplication.view.CustomEditText;
 import com.example.lenovo.myapplication.view.LabelActivity;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -34,15 +36,23 @@ public class SearchActivity extends BaseActivity  {
     @Override
     protected void initData() {
         final RecommendLabel.DataObjBean mDataObjBean = PreferenceManager.getInstance().getRecommendLabelList();
-        mGridImg.setNumColumns(mDataObjBean.getArticleLabelList().size()+1);
-        mGridVideo.setNumColumns(mDataObjBean.getVideoLabelList().size()+1);
-        final GridAdapter imgAdapter = new GridAdapter<>(this, mDataObjBean.getArticleLabelList());
-        final GridAdapter videoAdapter = new GridAdapter<>(this, mDataObjBean.getVideoLabelList());
+        final List<RecommendLabel.DataObjBean.ArticleLabelListBean> mArticleLabelList = mDataObjBean.getArticleLabelList();
+        while (mArticleLabelList.size() > 4) {
+            mArticleLabelList.remove(4);
+        }
+        final List<RecommendLabel.DataObjBean.VideoLabelListBean> mVideoLabelList = mDataObjBean.getVideoLabelList();
+        while (mVideoLabelList.size() > 4) {
+            mVideoLabelList.remove(4);
+        }
+        mGridImg.setNumColumns(mArticleLabelList.size() + 1);
+        mGridVideo.setNumColumns(mVideoLabelList.size() + 1);
+        final GridAdapter imgAdapter = new GridAdapter<>(this, mArticleLabelList);
+        final GridAdapter videoAdapter = new GridAdapter<>(this, mVideoLabelList);
         mGridImg.setAdapter(imgAdapter);
         mGridImg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position==mDataObjBean.getArticleLabelList().size()){
+                if (position == mArticleLabelList.size()) {
                     Intent mIntent = new Intent(SearchActivity.this, LabelActivity.class);
                     mIntent.putExtra("type",1);
                     startActivity(mIntent);
@@ -57,7 +67,7 @@ public class SearchActivity extends BaseActivity  {
         mGridVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position==mDataObjBean.getVideoLabelList().size()){
+                if (position == mVideoLabelList.size()) {
                     Intent mIntent = new Intent(SearchActivity.this, LabelActivity.class);
                     mIntent.putExtra("type",2);
                     startActivity(mIntent);
